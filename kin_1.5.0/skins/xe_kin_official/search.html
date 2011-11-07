@@ -1,0 +1,16 @@
+<div class="kinSearch">
+    <form action="{getUrl()}" method="get" id="fo_kin_search">
+        <input type="hidden" name="vid" value="{$vid}" />
+        <input type="hidden" name="mid" value="{$mid}" />
+        <input type="hidden" name="category" value="{$category}" />
+        <input type="hidden" name="type" value="{$type}" />
+
+        <select name="search_target">
+            <option loop="$search_option =>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+        </select>
+        <input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
+        <a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','','entry','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
+        <a href="#" onclick="xGetElementById('fo_kin_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_search}</span></a>
+        <a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_cancel}</span></a>
+    </form>
+</div>

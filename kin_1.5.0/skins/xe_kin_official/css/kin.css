@@ -188,6 +188,7 @@ ul.listTitle li.noLine { border-left:none; margin:0; padding:0; }
 .shortReply ul { margin:0 0 20px 0; padding:0; list-style:none; width:100%; border-top:1px solid #AEAEAE; }
 .shortReply ul li { border-bottom:1px dotted #AEAEAE; padding:15px 0; display:block;width:100%; }
 .shortReply ul li div.content_kin { margin-bottom:10px; color:#000; white-space:normal;}
+.shortReply ul li div.content_kin .comment_textarea { width:98%;height:90px;word-wrap:break-word;border:1px solid #eee;resize:vertical;}
 .shortReply ul li div.infoBox  { width:100%; clear:both; overflow:hidden; *zoom:1;}
 .shortReply ul li div.infoBox  span.author { float:left; }
 .shortReply ul li div.infoBox  span.date { float:right; font-size:10px; }

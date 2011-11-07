@@ -5,20 +5,20 @@
 			<div class="infoBox">
 				<span class="author"><a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a></span>
 				<span class="date">
-					{zdate($val->regdate, "Y-m-d H:i")} 
+					{zdate($val->regdate, "Y-m-d H:i")}
 					<a cond="$grant->manager || $val->member_srl == $logged_info->member_srl" href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteComment({$parent_srl},{$val->reply_srl},{$page}); return false;">&nbsp;[{$lang->cmd_delete}]</a>
 				</span>
 			</div>
-			<div class="content_kin">{htmlspecialchars($val->content)}</div>
+			<div class="content_kin"><textarea class="comment_textarea" cols="" rows="" style="">{htmlspecialchars($val->content)}</textarea></div>
 		</li>
 		</ul>
 
 
 		<div cond="$page_navigation->total_page>1" class="pagi">
-			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a> 
+			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a>
 			<!--@while($page_no = $page_navigation->getNextPage())-->
 				<!--@if($page == $page_no)-->
-					<strong>{$page_no}</strong> 
+					<strong>{$page_no}</strong>
 				<!--@else-->
 					<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_no});">{$page_no}</a>
 				<!--@end-->

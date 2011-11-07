@@ -1,0 +1,23 @@
+<query id="getMyQuestions" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="in" column="category_srl" var="category_srl" pipe="and" />
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="title" var="search_keyword" />
+            <condition operation="like" column="content" var="search_keyword" pipe="or" />
+        </group>
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

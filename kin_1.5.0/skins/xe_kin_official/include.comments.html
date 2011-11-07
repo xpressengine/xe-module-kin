@@ -1,0 +1,41 @@
+<div class="shortReply">
+	<block cond="count($comment_list)">
+		<ul>
+		<li loop="$comment_list => $key,$val">
+			<div class="infoBox">
+				<span class="author"><a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a></span>
+				<span class="date">
+					{zdate($val->regdate, "Y-m-d H:i")} 
+					<a cond="$grant->manager || $val->member_srl == $logged_info->member_srl" href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteComment({$parent_srl},{$val->reply_srl},{$page}); return false;">&nbsp;[{$lang->cmd_delete}]</a>
+				</span>
+			</div>
+			<div class="content_kin">{htmlspecialchars($val->content)}</div>
+		</li>
+		</ul>
+
+
+		<div cond="$page_navigation->total_page>1" class="pagi">
+			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a> 
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				<!--@if($page == $page_no)-->
+					<strong>{$page_no}</strong> 
+				<!--@else-->
+					<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_no});">{$page_no}</a>
+				<!--@end-->
+			<!--@end-->
+			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_navigation->last_page});">{$lang->last_page}</a>
+		</div>
+    </block>
+
+    <form cond="$grant->write_reply" action="./" id="fo_kin_insert_comment" method="post" ruleset="insertComment">
+	<input type="hidden" name="act" value="procKinInsertComment"/>
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="parent_srl" value="{$parent_srl}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+    <table >
+    <colgroup><col width="*"/><col width="100"/></colgroup>
+    <tr><td style="width:90%; padding-right:10px;"><input type="text" name="content" class="inputText"/></td><td><span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span></td></tr>
+    </table>
+    </form>
+
+</div>

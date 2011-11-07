@@ -1,0 +1,110 @@
+<include target="_header.html" />
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<form action="./" method="post" ruleset="insertKin" id="fo_insert_kin" enctype="multipart/form-data">
+<input type="hidden" name="act" value="procKinAdminInsert" />
+<input type="hidden" name="page" value="{$page}" />
+<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
+	<div class="table">
+		<table cellspacing="0" class="rowTable">
+
+		<input cond="$logged_info->is_admin!='Y'" type="hidden" name="kin_name" value="{$module_info->mid}" />
+		<tr cond="$logged_info->is_admin=='Y'">
+			<th scope="row"><div>{$lang->mid}</div></th>
+			<td>
+				<input type="text" name="kin_name" value="{$module_info->mid}" class="inputTypeText w200" />
+				<p>{$lang->about_mid}</p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><div>{$lang->module_category}</div></th>
+			<td>
+				<select name="module_category_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
+				</select>
+				<p>{$lang->about_module_category}</p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><div>{$lang->browser_title}</div></th>
+			<td>
+				<input type="text" name="browser_title" value="{htmlspecialchars($module_info->browser_title)}"  class="inputTypeText w400" id="browser_title"/>
+				<a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','browser_title')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+				<p>{$lang->about_browser_title}</p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row"><div>{$lang->layout}</div></th>
+			<td>
+				<select name="layout_srl">
+				<option value="0">{$lang->notuse}</option>
+				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl" >{$val->title} ({$val->layout})</option>
+				</select>
+				<p>{$lang->about_layout}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->skin}</div></th>
+			<td>
+				<select name="skin">
+					<option loop="$skin_list => $key,$val" value="{$key}" <!--@if($module_info->skin==$key)-->selected="selected"<!--@end-->>{$val->title}</option>
+				</select>
+				<p>{$lang->about_skin}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->qa_title}</div></th>
+			<td>
+				<input type="text" name="qa_title" value="{$module_info->qa_title}"  class="inputTypeText" />
+				<p>{$lang->about_qa_title}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->list_count}</div></th>
+			<td>
+				<input type="text" name="list_count" value="{$module_info->list_count?$module_info->list_count:20}"  class="inputTypeText" />
+				<p>{$lang->about_list_count}</p>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->use_category}</div></th>
+			<td>
+				<input type="checkbox" name="use_category" value="Y" <!--@if($module_info->use_category=='Y')-->checked="checked"<!--@end-->  class="checkbox" id="fld_for_category" />
+				<label for="fld_for_category">{$lang->about_use_category}</label>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->limit_write}</div></th>
+			<td>
+				<input type="checkbox" name="limit_write" value="Y" <!--@if($module_info->limit_write =='Y')-->checked="checked"<!--@end-->  class="checkbox" id="fld_for_limit_write" />
+				<label for="fld_for_limit_write">{$lang->about_limit_write}</label>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->limit_give_point}</div></th>
+			<td>
+				<input type="text" name="limit_give_point" value="{$module_info->limit_give_point}" id="fld_for_limit_give_point" class="inputTypeText"/>
+				<label for="fld_for_limit_give_point">{$lang->about_limit_give_point}</label>
+			</td>
+		</tr>
+		<tr>
+			<th scope="row"><div>{$lang->description}</div></th>
+			<td>
+				<textarea name="description" class="inputTypeTextArea fullWidth" style="width:60%;height:100px">{htmlspecialchars($module_info->description)}</textarea>
+				<p>{$lang->about_description}</p>
+			</td>
+		</tr>
+		</table>
+	</div>
+	<div class="btnArea">
+		<span class="btn"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+		<span class="btn"><a href="{getUrl('act','dispKinAdminList','module_srl','')}">{$lang->cmd_back}</a></span>
+	</div>
+</form>

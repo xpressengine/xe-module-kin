@@ -1,0 +1,11 @@
+<load target="./css/kin.css" />
+<load target="./js/kin.js" />
+
+<div class="kinHeader">
+    <div class="kinTitle">
+        <h2 class="kinTitleText"><a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}"><!--@if($module_info->qa_title)-->{$module_info->qa_title}<!--@else-->QA System<!--@end--></a></h2>
+		<a cond="$is_logged && $logged_info->is_admin == 'Y'" class="setup" href="{getUrl('act','dispKinAdminInsert','mid',$module_info->mid,'module_srl', $module_info->module_srl)}">{$lang->cmd_setup}</a>
+    </div>
+</div>
+
+

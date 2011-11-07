@@ -54,6 +54,7 @@
 					<span class="pointGift">{number_format($document_kins[$oDocument->document_srl])}</span>
 					<a href="{getUrl('','document_srl',$oDocument->document_srl,'search_keyword',$search_keyword)}">{$oDocument->getTitle()}</a>
 					<span cond="$oDocument->getCommentCount()">{$oDocument->getCommentCount()}</span>
+					<span class="commentCount" loop="$comment_count => $come" cond="$come->parent_srl == $oDocument->document_srl">{$come->count}</span>
 				</td>
 				<td cond="$type!='my_questions'" class="author"><a href="#" onclick="return false;" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickname()}</a></td>
 				<td class="date">{$oDocument->getRegdate("y.m.d")}</td>
@@ -69,6 +70,7 @@
 				<td class="title">
 					<span class="pointGift">{number_format($document_kins[$oReply->get('document_srl')])}</span>
 					<a href="{getUrl('','document_srl',$oReply->get('document_srl'))}#comment_{$oReply->get('comment_srl')}">{$oReply->getSummary(70)}</a>
+					<span class="commentCount" loop="$comment_count => $come" cond="$come->parent_srl == $oReply->comment_srl">{$come->count}</span>
 				</td>
 				<td cond="$type!='my_questions'" class="author"><a href="#" onclick="return false;" class="member_{$oReply->get('member_srl')}">{$oReply->getNickName()}</a></td>
 				<td class="date">{$oReply->getRegdate("y.m.d")}</td>
@@ -96,20 +98,6 @@
 		<!-- 검색 -->
 
         <include target="search.html" />
-
-		<div class="kinSearch">1111111111
-			<form action="{getUrl()}" method="get" id="fo_kin_search">
-				<input cond="$vid" type="hidden" name="vid" value="{$vid}" />
-				<input type="hidden" name="mid" value="{$mid}" />
-				<input type="hidden" name="category" value="{$category}" />
-
-				<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
-				<a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','','entry','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
-
-				<a href="#" onclick="xGetElementById('fo_kin_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_search}</span></a>
-				<a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_cancel}</span></a>
-			</form>
-		</div>
 	<!--@else-->
 		<p class="none">
 			<strong>
@@ -128,19 +116,6 @@
 			{$lang->msg_no_article}
 		</p>
 		<include target="search.html" />
-		<div class="kinSearch">
-			<form action="{getUrl()}" method="get" id="fo_kin_search">
-				<input cond="$vid" type="hidden" name="vid" value="{$vid}" />
-				<input type="hidden" name="mid" value="{$mid}" />
-				<input type="hidden" name="category" value="{$category}" />
-
-				<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" class="inputTypeText"/>
-				<a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','','entry','')}" class="button {$btn_class}"><span>{$lang->cmd_search_next}</span></a>
-
-				<a href="#" onclick="xGetElementById('fo_kin_search').submit();return false;" class="button {$btn_class}"><span>{$lang->cmd_search}</span></a>
-				<a href="{getUrl('','mid',$mid,'listStyle',$listStyle)}" class="button {$btn_class}"><span>{$lang->cmd_cancel}</span></a>
-			</form>
-		</div>
 		<div class="rightButtonBox">
 			<a href="{getUrl('act','dispKinWrite','document_srl','')}" class="button black strong"><span>{$lang->cmd_ask}</span></a>
 		</div>

@@ -77,6 +77,20 @@
             return $this->_arrangeDocument($output);
         }
 
+        function getRepliedCount($data){
+        	if(empty($data)){
+        		return array();
+        	}
+        	foreach($data as $key => $obj){
+        		if($obj instanceof commentItem){
+        			$args->documentSrls[] = $obj->comment_srl;
+        		}
+        		$args->documentSrls[] = $obj->document_srl;
+        	}
+        	$output = executeQueryArray('kin.getRepliesCount', $args);
+			return $output;
+        }
+
         function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
             $oCommentModel = &getModel('comment');
 

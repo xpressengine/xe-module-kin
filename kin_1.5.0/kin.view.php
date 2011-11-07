@@ -59,17 +59,14 @@
                     break;
                 case 'selected' :
                         $output = $oKinModel->getSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
-
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_questions' :
                         $output = $oKinModel->getMyQuestions($this->module_srl, $category_srl, $logged_info->member_srl, $this->list_count, $page, $search_keyword, $search_target);
-
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_replies' :
                         $output = $oKinModel->getMyReplies($this->module_srl, $logged_info->member_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
-
                         Context::set('reply_list', $output->data);
                     break;
                 default :
@@ -84,11 +81,15 @@
                         	$obj->search_target = $search_target;
                         }
                         $output = $oDocumentModel->getDocumentList($obj);
-
                         Context::set('document_list', $output->data);
                     break;
             }
+            Context::set('needRepConType', array('questions','selected','my_questions'));
             Context::set('page_navigation', $output->page_navigation);
+            $output2 = $oKinModel->getRepliedCount($output->data);
+            if(!empty($output2)){
+            	Context::set('comment_count', $output2->data);
+            }
 
             //trans $output->data object to array $output->data:question or replies and their point
             if(count($output->data)) {

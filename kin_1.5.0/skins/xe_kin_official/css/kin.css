@@ -196,6 +196,7 @@ ul.listTitle li.noLine { border-left:none; margin:0; padding:0; }
 .shortReply form { height:40px; display:block; clear:both; }
 .shortReply form table { border:0; width:100%; }
 .shortReply form input.inputText { border:1px solid #ccc;  width:98%; height:18px;}
+.shortReply form table tbody tr td textarea.comment_textarea { width:95%;height:75px;word-wrap:break-word;border:1px solid #eee;resize:vertical;}
 
 .shortReply .pagi{ padding:15px 0; margin:0; text-align:center; clear:both; }
 .shortReply .pagi *{ margin:0; padding:0;}

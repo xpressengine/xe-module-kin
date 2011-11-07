@@ -5,7 +5,7 @@
 			<div class="infoBox">
 				<span class="author"><a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a></span>
 				<span class="date">
-					{zdate($val->regdate, "Y-m-d H:i")} 
+					{zdate($val->regdate, "Y-m-d H:i")}
 					<a cond="$grant->manager || $val->member_srl == $logged_info->member_srl" href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteComment({$parent_srl},{$val->reply_srl},{$page}); return false;">&nbsp;[{$lang->cmd_delete}]</a>
 				</span>
 			</div>
@@ -15,10 +15,10 @@
 
 
 		<div cond="$page_navigation->total_page>1" class="pagi">
-			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a> 
+			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a>
 			<!--@while($page_no = $page_navigation->getNextPage())-->
 				<!--@if($page == $page_no)-->
-					<strong>{$page_no}</strong> 
+					<strong>{$page_no}</strong>
 				<!--@else-->
 					<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_no});">{$page_no}</a>
 				<!--@end-->
@@ -34,7 +34,7 @@
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
     <table >
     <colgroup><col width="*"/><col width="100"/></colgroup>
-    <tr><td style="width:90%; padding-right:10px;"><input type="text" name="content" class="inputText"/></td><td><span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span></td></tr>
+    <tr><td style="width:90%; padding-right:10px;"><textarea name="content" class="comment_textarea"/></td><td><span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span></td></tr>
     </table>
     </form>
 

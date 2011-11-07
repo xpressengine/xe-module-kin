@@ -10,7 +10,7 @@
             <span class="date"><strong>{$oDocument->getRegdate('Y.m.d')}</strong> {$oDocument->getRegdate('H:i')}</span>
         </div>
         <div class="docContent">
-            {$oDocument->getContent(false)}
+            {$oDocument->getContent()}
         </div>
 
         <dl cond="$oDocument->hasUploadedFiles()" class="attachedFile">
@@ -49,7 +49,7 @@
             <a href="#" onclick="return false;" class="author member_{$reply->get('member_srl')}">{$reply->getNickName()}</a>
             <span class="date"><strong>{$reply->getRegdate('Y.m.d')}</strong> {$reply->getRegdate('H:i')}</span>
         </div>
-	
+
         <div class="infoArea">
 			<a cond="($oDocument->isGranted() && !$selected_reply) && $logged_info->user_id == $oDocument->get('user_id') && $oDocument->get('user_id') != $reply->user_id" href="#" onclick="if(confirm('{$lang->msg_select_reply}')) doSelectReply('{$reply->comment_srl}'); return false;" class="button blue"><span>{$lang->cmd_select_reply}</span></a>
         </div>
@@ -57,7 +57,7 @@
             <div cond="$selected_reply == $reply->comment_srl" class="selectedReply">
                 {$lang->msg_selected_reply}
             </div>
-            {$reply->getContent(false)}
+            {$reply->getContent()}
         </div>
 
         <dl cond="$reply->hasUploadedFiles()" class="attachedFile">

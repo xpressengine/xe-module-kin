@@ -95,6 +95,7 @@
             	$this->_setSearchOption($searchOption, $args);
         	}
             $output = executeQueryArray('kin.getMyReplies', $args);
+
             if(!$output->data) return array();
             foreach($output->data as $key => $val) {
                 unset($oComment);

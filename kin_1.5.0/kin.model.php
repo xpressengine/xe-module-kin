@@ -102,7 +102,7 @@
             return $output;
         }
 
-        function getNotSelectedReplies($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null) {
+        function getNotSelectedReplies($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
             $oCommentModel = &getModel('comment');
 
             $args->module_srl = $module_srl;
@@ -111,7 +111,11 @@
             $args->page = $page;
             $args->sort_index = 'reply.list_order';
             $args->order_type = 'asc';
-            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+            if(!is_null($search_keyword) && !is_null($search_target)) {
+            	$searchOption->search_target = $search_target;
+            	$searchOption->search_keyword = $search_keyword;
+            	$this->_setSearchOption($searchOption, $args);
+        	}
             $output = executeQueryArray('kin.getNotSelectedReplies', $args);
             if($output->data) {
                 foreach($output->data as $key => $val) {

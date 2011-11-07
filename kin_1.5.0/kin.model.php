@@ -77,7 +77,7 @@
             return $this->_arrangeDocument($output);
         }
 
-        function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null) {
+        function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
             $oCommentModel = &getModel('comment');
 
             $args->module_srl = $module_srl;
@@ -89,7 +89,11 @@
             $args->page_count = 10;
             $args->comment_count = 0;
             $args->member_srl = $member_srl;
-            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+            if(!is_null($search_keyword) && !is_null($search_target)) {
+            	$searchOption->search_target = $search_target;
+            	$searchOption->search_keyword = $search_keyword;
+            	$this->_setSearchOption($searchOption, $args);
+        	}
             $output = executeQueryArray('kin.getMyReplies', $args);
             if(!$output->data) return array();
             foreach($output->data as $key => $val) {
@@ -150,7 +154,7 @@
             return $this->_arrangeDocument($output);
         }
 
-        function getMyQuestions($module_srl, $category_srl = null, $member_srl, $list_count = 20, $page = 1, $search_keyword = null) {
+        function getMyQuestions($module_srl, $category_srl = null, $member_srl, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
             $oDocumentModel = &getModel('document');
 
             $args->module_srl = $module_srl;
@@ -160,8 +164,17 @@
             $args->page = $page;
             $args->list_count = $list_count;
             $args->member_srl = $member_srl;
-            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
-            $output = executeQueryArray('kin.getMyQuestions', $args);
+            if(!is_null($search_keyword) && !is_null($search_target)) {
+            	$searchOption->search_target = $search_target;
+            	$searchOption->search_keyword = $search_keyword;
+            	$this->_setSearchOption($searchOption, $args);
+        	}
+        	if(isset($args->s_comment)){
+        		$queryId = 'kin.getMyQuestionsWithComment';
+        	}else{
+        		$queryId = 'kin.getMyQuestions';
+        	}
+            $output = executeQueryArray($queryId, $args);
             return $this->_arrangeDocument($output);
         }
 

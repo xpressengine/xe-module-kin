@@ -94,7 +94,10 @@
 		</div>
 
 		<!-- 검색 -->
-		<div class="kinSearch">
+
+        <include target="search.html" />
+
+		<div class="kinSearch">1111111111
 			<form action="{getUrl()}" method="get" id="fo_kin_search">
 				<input cond="$vid" type="hidden" name="vid" value="{$vid}" />
 				<input type="hidden" name="mid" value="{$mid}" />
@@ -124,6 +127,7 @@
 			</strong>
 			{$lang->msg_no_article}
 		</p>
+		<include target="search.html" />
 		<div class="kinSearch">
 			<form action="{getUrl()}" method="get" id="fo_kin_search">
 				<input cond="$vid" type="hidden" name="vid" value="{$vid}" />

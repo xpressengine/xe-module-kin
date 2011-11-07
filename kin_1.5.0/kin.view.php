@@ -41,26 +41,35 @@
             if(!Context::get('is_logged')&&$type == 'my_questions') $type = '';
             $logged_info = Context::get('logged_info');
 
+			foreach($this->search_option as $opt) $search_option[$opt] = Context::getLang($opt);
+
+            Context::set('search_option', $search_option);
+
             $search_keyword = Context::get('search_keyword');
+            $search_target = Context::get('search_target');
             switch($type) {
                 case 'questions' :
-                        $output = $oKinModel->getNotRepliedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword);
+                        $output = $oKinModel->getNotRepliedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
                         Context::set('document_list', $output->data);
                     break;
                 case 'replies' :
-                        $output = $oKinModel->getNotSelectedReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword);
+                        $output = $oKinModel->getNotSelectedReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+
                         Context::set('reply_list', $output->data);
                     break;
                 case 'selected' :
-                        $output = $oKinModel->getSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword);
+                        $output = $oKinModel->getSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_questions' :
-                        $output = $oKinModel->getMyQuestions($this->module_srl, $category_srl, $logged_info->member_srl, $this->list_count, $page, $search_keyword);
+                        $output = $oKinModel->getMyQuestions($this->module_srl, $category_srl, $logged_info->member_srl, $this->list_count, $page, $search_keyword, $search_target);
+
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_replies' :
-                        $output = $oKinModel->getMyReplies($this->module_srl, $logged_info->member_srl, $category_srl, $this->list_count, $page, $search_keyword);
+                        $output = $oKinModel->getMyReplies($this->module_srl, $logged_info->member_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+
                         Context::set('reply_list', $output->data);
                     break;
                 default :
@@ -68,11 +77,14 @@
                         $obj->page = $page;
                         $obj->category_srl = $category_srl;
                         $obj->list_count = $this->list_count;
-                        if($search_keyword) {
-                            $obj->search_target = 'title_content';
+                        if(!empty($search_keyword)) {
                             $obj->search_keyword = $search_keyword;
                         }
+                        if(!empty($search_target)){
+                        	$obj->search_target = $search_target;
+                        }
                         $output = $oDocumentModel->getDocumentList($obj);
+
                         Context::set('document_list', $output->data);
                     break;
             }

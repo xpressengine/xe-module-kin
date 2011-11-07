@@ -10,7 +10,48 @@
         function init() {
         }
 
-        function getNotRepliedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null) {
+        function _setSearchOption($searchOpt, &$args/*, &$query_id, &$use_division*/)
+		{
+			$search_target = $searchOpt->search_target;
+			$search_keyword = $searchOpt->search_keyword;
+
+            if($search_target && $search_keyword) {
+                switch($search_target) {
+                    case 'title' :
+                    case 'content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'title_content' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_title = $search_keyword;
+                            $args->s_content = $search_keyword;
+                        break;
+                    case 'user_id' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->s_user_id = $search_keyword;
+                            $args->sort_index = 'documents.'.$args->sort_index;
+                        break;
+                    case 'user_name' :
+                    case 'nick_name' :
+                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+                            $args->{"s_".$search_target} = $search_keyword;
+                        break;
+                    case 'comment' :
+                            $args->s_comment = $search_keyword;
+                            $query_id = 'document.getDocumentListWithinComment';
+                        break;
+                    case 'tag' :
+                            $args->s_tags = str_replace(' ','%',$search_keyword);
+                            $query_id = 'document.getDocumentListWithinTag';
+                        break;
+                    default :
+                        break;
+                }
+            }
+		}
+
+        function getNotRepliedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
             $oDocumentModel = &getModel('document');
 
             $args->module_srl = $module_srl;
@@ -21,8 +62,18 @@
             $args->list_count = $list_count;
             $args->page_count = 10;
             $args->comment_count = 0;
-            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
-            $output = executeQueryArray('kin.getNotRepliedQuestions', $args);
+            if(!is_null($search_keyword) && !is_null($search_target)) {
+            	$searchOption->search_target = $search_target;
+            	$searchOption->search_keyword = $search_keyword;
+            	$this->_setSearchOption($searchOption, $args);
+        	}
+
+        	if(isset($args->s_comment)){
+        		$queryId = 'kin.getNotRepliedQuestionsWithComment';
+        	}else{
+        		$queryId = 'kin.getNotRepliedQuestions';
+        	}
+            $output = executeQueryArray($queryId, $args);
             return $this->_arrangeDocument($output);
         }
 
@@ -134,7 +185,7 @@
             $output = executeQuery('kin.getKinPoint', $args);
             return $output->data->point;
         }
-		
+
 		function getTotalKinPoint($limit = 5,$member_srl = null) {
             $args->limit = $limit;
 			if(!empty($member_srl)){
@@ -168,7 +219,7 @@
         		$args->endTime = $endTime;
         	}
             $output = executeQuery('kin.getTopKinPoints', $args);
-			
+
             $result = $this->_transObjToArr($output->data);
             return $result;
         }

@@ -54,6 +54,7 @@
 					<span class="pointGift">{number_format($document_kins[$oDocument->document_srl])}</span>
 					<a href="{getUrl('','document_srl',$oDocument->document_srl,'search_keyword',$search_keyword)}">{$oDocument->getTitle()}</a>
 					<span cond="$oDocument->getCommentCount()">{$oDocument->getCommentCount()}</span>
+					<span class="reply"><a href="#">reply</a></span>
 					<span class="commentCount" loop="$comment_count => $come" cond="$come->parent_srl == $oDocument->document_srl">{$come->count}</span>
 				</td>
 				<td cond="$type!='my_questions'" class="author"><a href="#" onclick="return false;" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickname()}</a></td>

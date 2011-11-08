@@ -175,7 +175,7 @@ ul.listTitle li.noLine { border-left:none; margin:0; padding:0; }
 .currentReplies { margin-bottom:10px; padding-left:10px; background:url(../img/icon_arrow_red.gif) no-repeat 0 2px; float:left; }
 .replyMessage { margin-bottom:10px; padding-left:30px;float:right; }
 
-.pagination{ padding:15px 0; margin:0; text-align:center;}
+.listBox .pagination{ padding:15px 0; margin:0; text-align:center;}
 .pagination *{ margin:0; padding:0;}
 .pagination img{ border:0;}
 .pagination a,

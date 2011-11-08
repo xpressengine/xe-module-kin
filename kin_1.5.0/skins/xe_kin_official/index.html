@@ -70,7 +70,7 @@
 				<td class="title">
 					<span class="pointGift">{number_format($document_kins[$oReply->get('document_srl')])}</span>
 					<a href="{getUrl('','document_srl',$oReply->get('document_srl'))}#comment_{$oReply->get('comment_srl')}">{$oReply->getSummary(70)}</a>
-					<span class="commentCount" loop="$comment_count => $come" cond="$come->parent_srl == $oReply->comment_srl">{$come->count}</span>
+					<span class="reply" loop="$comment_count => $come" cond="$come->parent_srl == $oReply->comment_srl">{$come->count}</span>
 				</td>
 				<td cond="$type!='my_questions'" class="author"><a href="#" onclick="return false;" class="member_{$oReply->get('member_srl')}">{$oReply->getNickName()}</a></td>
 				<td class="date">{$oReply->getRegdate("y.m.d")}</td>

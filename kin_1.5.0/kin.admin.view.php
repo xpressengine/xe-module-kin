@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinAdminView
-     * @author zero (skklove@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  kin admin view class
      **/
 

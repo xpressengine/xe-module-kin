@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinController
-     * @author zero (skklove@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  kin controller class
      **/
 

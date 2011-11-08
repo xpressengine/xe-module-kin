@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kin
-     * @author zero (skklove@gmail.com)
+     * @author NHN (developers@xpressengine.com)
      * @brief  kin high class
      **/
 

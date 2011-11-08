@@ -28,14 +28,22 @@
     </block>
 
     <form cond="$grant->write_reply" action="./" id="fo_kin_insert_comment" method="post" ruleset="insertComment">
+	<div>
 	<input type="hidden" name="act" value="procKinInsertComment"/>
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="parent_srl" value="{$parent_srl}" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
-    <table >
-    <colgroup><col width="*"/><col width="100"/></colgroup>
-    <tr><td style="width:90%; padding-right:10px;"><textarea name="content" class="comment_textarea"/></td><td><span class="button"><input type="submit" value="{$lang->cmd_registration}" /></span></td></tr>
+    <table class="comment_tb" cellspacing="0" cellpadding="0" >
+    <tr>
+		<td class="col1" ><textarea name="content" class="comment_textarea"/></td>
+		<td class="col2" style="">
+		<div>
+		<span class="button" >
+		<input type="submit" value="{$lang->cmd_registration}" /></span></div>
+		<div style="clear:both;height:0;"><span></span></div></td>
+	</tr>
     </table>
+	</div>
     </form>
 
 </div>

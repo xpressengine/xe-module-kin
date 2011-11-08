@@ -90,7 +90,8 @@ ul.listTitle li.noLine { border-left:none; margin:0; padding:0; }
 .listBox td.title span.pointGift { background:none; padding:2px; border:1px solid #F3F9FD; background-color:#5589AE; font-weight:bold; font-size:8px; font-family:tahoma; color:#CAE0EF; }
 .listBox td.title span { font-size:9px; font-family:verdana; font-weight:bold; color:#aaa; padding-left:16px; background:url(../img/icReply.gif) no-repeat left top; margin-left:5px; }
 .listBox td.title span.reply{display:inline-block;height:16px;vertical-align:middle;margin-top:1px; padding-left:16px; background:url(../img/icoReply.gif) no-repeat left 4px; margin-left:5px; }
-.listBox td.title span.reply a{font-size:9px; font-family:verdana; font-weight:bold; color:#aaa;text-decoration:none}
+.listBox td.title span.reply a{font-size:9px; font-family:verdana; color:#ccc;text-decoration:none}
+.listBox td.title span.reply a:hover{text-decoration:none}
 .listBox td.title span.commentCount { border:1px solid red;font-size:9px; font-family:verdana; font-weight:bold; color:#aaa; padding-left:16px; background:url(../img/iconReply.gif) no-repeat left top; margin-left:5px; }
 .listBox td.title { width:100%; white-space:normal; line-height:1.6;}
 .listBox td.date { color:#969696; font-size:11px; font-family:tahoma; text-align:right;}

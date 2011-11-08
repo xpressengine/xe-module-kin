@@ -9,7 +9,7 @@
 
         function init() {
         }
-		
+
 		//insert question
         function procKinInsert() {
             $oDocumentModel = &getModel('document');
@@ -177,13 +177,13 @@
             $obj->content = Context::get('content');
             $obj->notify_message = 'Y';
             if(!$obj->content) return new Object(-1, 'msg_content_is_null');
-	
+
             $output = $oCommentController->insertComment($obj);
             if(!$output->toBool()) return $output;
 
             $this->add('document_srl', $oSourceDocument->get('document_srl'));
             $this->setMessage('success_registed');
-	
+
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', $this->module_info->mid, 'document_srl',$obj->document_srl, 'act', 'dispKinView');
 				header('location:'.$returnUrl);
@@ -248,11 +248,11 @@
 
         function procKinInsertComment() {
             $oKinModel = &getModel('kin');
-			
+
             if(!$this->module_srl || !$this->grant->write_reply) return new Object(-1,'msg_invalid_request');
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object(-1,'msg_invalid_request');
-			
+
             $args = Context::gets('parent_srl','content');
 			$document_srl = Context::get('document_srl');
 
@@ -279,6 +279,38 @@
 				header('location:'.$returnUrl);
 				return;
 			}
+        }
+
+         function triggerMemberMenu(&$obj) {
+            $member_srl = Context::get('target_srl');
+            $mid = Context::get('cur_mid');
+
+            if(!$member_srl || !$mid) return new Object();
+
+            $logged_info = Context::get('logged_info');
+
+            // 호출된 모듈의 정보 구함
+            $oModuleModel = &getModel('module');
+            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
+
+            if($cur_module_info->module != 'kin') return new Object();
+
+            // 자신의 아이디를 클릭한 경우
+            if($member_srl == $logged_info->member_srl) {
+                $member_info = $logged_info;
+            } else {
+                $oMemberModel = &getModel('member');
+                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            }
+
+            if(!$member_info->user_id) return new Object();
+
+            // 아이디로 검색기능 추가
+            $url = getUrl('','mid',$mid,'search_target','nick_name','search_keyword',$member_info->nick_name);
+            $oMemberController = &getController('member');
+            $oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', './modules/member/tpl/images/icon_view_written.gif');
+
+            return new Object();
         }
 
         function procKinDeleteComment() {

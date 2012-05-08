@@ -1,0 +1,15 @@
+<query id="getMyQuestions" action="select">
+    <tables>
+        <table name="kin_replies"/>
+    </tables>
+    <columns>
+    	<column name="parent_srl"/>
+        <column name="count(*)" alias="count"/>
+    </columns>
+    <conditions>
+        <condition operation="in" column="parent_srl" var="documentSrls" pipe="and" />
+    </conditions>
+	<groups>
+    	<group column="parent_srl" />
+    </groups>
+</query>

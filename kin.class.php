@@ -16,6 +16,7 @@
             $oModuleModel = &getModel('module');
 
             $oModuleController->insertTrigger('member.getMemberMenu', 'kin', 'controller', 'triggerMemberMenu', 'after');
+            $oModuleController->insertTrigger('member.getModuleListInSitemap', 'kin', 'model', 'triggerModuleListInSitemap', 'after');
             return new Object();
         }
 
@@ -25,12 +26,19 @@
             if(!$oModuleModel->getTrigger('member.getMemberMenu', 'kin', 'controller', 'triggerMemberMenu', 'after')) {
             	return true;
             }
+			// 2012. 09. 11 when add new menu in sitemap, custom menu add
+			if(!$oModuleModel->getTrigger('menu.getModuleListInSitemap', 'kin', 'model', 'triggerModuleListInSitemap', 'after')) return true;
             return false;
         }
 
         function moduleUpdate() {
-        	$oModuleController = &getController('module');
-        	$oModuleController->insertTrigger('member.getMemberMenu', 'kin', 'controller', 'triggerMemberMenu', 'after');
+			$oModuleModel = &getModel('module');
+			$oModuleController = &getController('module');
+			if(!$oModuleModel->getTrigger('menu.getMemberMenu', 'kin', 'controller', 'triggerMemberMenu', 'after'))
+				$oModuleController->insertTrigger('member.getMemberMenu', 'kin', 'controller', 'triggerMemberMenu', 'after');
+			// 2012. 09. 11 when add new menu in sitemap, custom menu add
+			if(!$oModuleModel->getTrigger('menu.getModuleListInSitemap', 'kin', 'model', 'triggerModuleListInSitemap', 'after'))
+				$oModuleController->insertTrigger('menu.getModuleListInSitemap', 'kin', 'model', 'triggerModuleListInSitemap', 'after');
             return new Object(0, 'success_updated');
         }
 

@@ -60,6 +60,29 @@
 			</td>
 		</tr>
 		<tr>
+			<th class="row"><div>{$lang->mobile_view}</div></th>
+			<td><input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" /> <label for="use_mobile">{$lang->about_mobile_view}</label></td>
+		</tr>
+		<tr>
+			<th class="row"><div>{$lang->mobile_layout}</div></th>
+			<td>
+				<select name="mlayout_srl" id="layout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				<p class="desc">{$lang->about_layout}</p>
+			</td>
+		</tr>
+		<tr>
+			<th class="row"><div>{$lang->mobile_skin}</div></th>
+			<td>
+				<select name="mskin" id="mskin">
+					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='xe_board')">{$val->title}</option>
+				</select>
+				<p class="desc">{$lang->about_skin}</p>
+			</td>
+		</tr>
+		<tr>
 			<th scope="row"><div>{$lang->qa_title}</div></th>
 			<td>
 				<input type="text" name="qa_title" value="{$module_info->qa_title}"  class="inputTypeText" />

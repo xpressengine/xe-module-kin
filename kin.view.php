@@ -123,6 +123,18 @@
                         $output = $oKinModel->getPopularReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('reply_list', $output->data);
                     break;
+				case 'all' :
+						$obj->module_srl = $this->module_srl;
+                        $obj->page = $page;
+                        $obj->category_srl = $category_srl;
+                        $obj->list_count = $this->list_count;
+                        if($search_keyword) {
+                            $obj->search_target = 'title_content';
+                            $obj->search_keyword = $search_keyword;
+                        }
+                        $output = $oDocumentModel->getDocumentList($obj);
+                        Context::set('document_list', $output->data);
+                    break;
                 default :
                         $obj->module_srl = $this->module_srl;
                         $obj->page = $page;

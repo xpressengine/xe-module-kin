@@ -57,17 +57,17 @@
 			<value xml:lang="zh-CN"><![CDATA[我的回答]]></value>
         </item>
 		<item name="7">
-            <value xml:lang="ko"><![CDATA[High Score]]></value>
+            <value xml:lang="ko"><![CDATA[포인트 많은순으로 ]]></value>
             <value xml:lang="en"><![CDATA[High Score]]></value>
 			<value xml:lang="zh-CN"><![CDATA[高分问题]]></value>
         </item>
 		<item name="8">
-            <value xml:lang="ko"><![CDATA[Popular Questions]]></value>
+            <value xml:lang="ko"><![CDATA[인기 질문]]></value>
             <value xml:lang="en"><![CDATA[Popular Questions]]></value>
 			<value xml:lang="zh-CN"><![CDATA[热门问题]]></value>
         </item>
 		<item name="9">
-            <value xml:lang="ko"><![CDATA[Popular Answers]]></value>
+            <value xml:lang="ko"><![CDATA[인기 답변]]></value>
             <value xml:lang="en"><![CDATA[Popular Answers]]></value>
 			<value xml:lang="zh-CN"><![CDATA[热门回答]]></value>
         </item>
@@ -88,7 +88,7 @@
 		<value xml:lang="zh-CN"><![CDATA[提交回答]]></value>
 	</item>
 	<item name="cmd_add_question">
-		<value xml:lang="ko"><![CDATA[Add Question]]></value>
+		<value xml:lang="ko"><![CDATA[질문하기]]></value>
 		<value xml:lang="en"><![CDATA[Add Question]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加问题]]></value>
 	</item>
@@ -148,7 +148,7 @@
 		<value xml:lang="zh-CN"><![CDATA[通告]]></value>
 	</item>
 	<item name="about_notify_message">
-		<value xml:lang="ko"><![CDATA[답변이 추가되면 쪽지 또는 메일로 알려주는 기능입니다]]></value>
+		<value xml:lang="ko"><![CDATA[답변이 추가되면 쪽지 또는 메일로 알려드립니다]]></value>
 		<value xml:lang="en"><![CDATA[When the Questions is solved, half of the given point will be paid to the owener <br/>the other half point will be paid to the replier(minimal:%d, maximal %d).]]></value>
 		<value xml:lang="zh-CN"><![CDATA[有回答时，发送短消息或电子邮件。]]></value>
 	</item>
@@ -303,27 +303,27 @@
 		<value xml:lang="zh-CN"><![CDATA[会员管理]]></value>
 	</item>
 	<item name="about_point_signup">
-		<value xml:lang="ko"><![CDATA[Registration]]></value>
+		<value xml:lang="ko"><![CDATA[등록하기]]></value>
 		<value xml:lang="en"><![CDATA[Registration]]></value>
 		<value xml:lang="zh-CN"><![CDATA[注册]]></value>
 	</item>
 	<item name="topToltal">
-		<value xml:lang="ko"><![CDATA[연간 답변채택 적립포인트 순위]]></value>
+		<value xml:lang="ko"><![CDATA[연간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Annually Points Top]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每年总积分前]]></value>
 	</item>
 	<item name="topLastWeek">
-		<value xml:lang="ko"><![CDATA[주간 답변채택 적립포인트 순위]]></value>
+		<value xml:lang="ko"><![CDATA[주간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Weekly Points Top]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每周积分前]]></value>
 	</item>
 	<item name="topLastMonth">
-		<value xml:lang="ko"><![CDATA[월간 답변채택 적립포인트 순위]]></value>
+		<value xml:lang="ko"><![CDATA[월간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Monthly Points Top]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每月积分前]]></value>
 	</item>
 	<item name="totalPointTop">
-		<value xml:lang="ko"><![CDATA[Total Points Top]]></value>
+		<value xml:lang="ko"><![CDATA[전체 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Total Points Top]]></value>
 		<value xml:lang="zh-CN"><![CDATA[总积分排名]]></value>
 	</item>
@@ -373,37 +373,37 @@
 		<value xml:lang="zh-CN"><![CDATA[请输入知识问答系统标题]]></value>
 	</item>
 	<item name="answers">
-		<value xml:lang="ko"><![CDATA[Answers]]></value>
+		<value xml:lang="ko"><![CDATA[딥변]]></value>
 		<value xml:lang="en"><![CDATA[Answers]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回答]]></value>
 	</item>
 	<item name="type">
-		<value xml:lang="ko"><![CDATA[Type]]></value>
+		<value xml:lang="ko"><![CDATA[유형]]></value>
 		<value xml:lang="en"><![CDATA[Type]]></value>
 		<value xml:lang="zh-CN"><![CDATA[类型]]></value>
 	</item>
 	<item name="solved">
-		<value xml:lang="ko"><![CDATA[Solved]]></value>
+		<value xml:lang="ko"><![CDATA[해결됨]]></value>
 		<value xml:lang="en"><![CDATA[Solved]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已解决]]></value>
 	</item>
 	<item name="unsolved">
-		<value xml:lang="ko"><![CDATA[Unsolved]]></value>
+		<value xml:lang="ko"><![CDATA[해결안됨]]></value>
 		<value xml:lang="en"><![CDATA[Unsolved]]></value>
 		<value xml:lang="zh-CN"><![CDATA[未解决]]></value>
 	</item>
 	<item name="accepted">
-		<value xml:lang="ko"><![CDATA[Accepted]]></value>
+		<value xml:lang="ko"><![CDATA[채택됨]]></value>
 		<value xml:lang="en"><![CDATA[Accepted]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已接受]]></value>
 	</item>
 	<item name="unaccepted">
-		<value xml:lang="ko"><![CDATA[Un-accepted]]></value>
+		<value xml:lang="ko"><![CDATA[채택안됨]]></value>
 		<value xml:lang="en"><![CDATA[Un-accepted]]></value>
 		<value xml:lang="zh-CN"><![CDATA[未接受]]></value>
 	</item>
 	<item name="point_insert_question_kin">
-		<value xml:lang="ko"><![CDATA[On Adding Questions]]></value>
+		<value xml:lang="ko"><![CDATA[질문 추가]]></value>
 		<value xml:lang="en"><![CDATA[On Adding Questions]]></value>
 		<value xml:lang="zh-CN"><![CDATA[添加问题]]></value>
 	</item>
@@ -420,82 +420,82 @@
 		<value xml:lang="vi"><![CDATA[Bạn có thể giới hạn bài viết hiển thị trên một trang.(Mặc định là 10)]]></value>
 	</item>
 	<item name="popular_questions">
-		<value xml:lang="ko"><![CDATA[Popular Questions]]></value>
+		<value xml:lang="ko"><![CDATA[인기질문]]></value>
 		<value xml:lang="en"><![CDATA[Popular Questions]]></value>
 		<value xml:lang="zh-CN"><![CDATA[热门问题]]></value>
 	</item>
 	<item name="back">
-		<value xml:lang="ko"><![CDATA[Back]]></value>
+		<value xml:lang="ko"><![CDATA[돌아가기]]></value>
 		<value xml:lang="en"><![CDATA[Back]]></value>
 		<value xml:lang="zh-CN"><![CDATA[返回]]></value>
 	</item>
 	<item name="question">
-		<value xml:lang="ko"><![CDATA[Question]]></value>
+		<value xml:lang="ko"><![CDATA[질문]]></value>
 		<value xml:lang="en"><![CDATA[Question]]></value>
 		<value xml:lang="zh-CN"><![CDATA[问题]]></value>
 	</item>
 	<item name="open_question">
-		<value xml:lang="ko"><![CDATA[Open Question]]></value>
+		<value xml:lang="ko"><![CDATA[해결 안된 질문]]></value>
 		<value xml:lang="en"><![CDATA[Open Question]]></value>
 		<value xml:lang="zh-CN"><![CDATA[开放的问题]]></value>
 	</item>
 	<item name="solved_question">
-		<value xml:lang="ko"><![CDATA[Solved Question]]></value>
+		<value xml:lang="ko"><![CDATA[해결된 질문]]></value>
 		<value xml:lang="en"><![CDATA[Solved Question]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已解决的问题]]></value>
 	</item>
 	<item name="all_questions">
-		<value xml:lang="ko"><![CDATA[All Questions]]></value>
+		<value xml:lang="ko"><![CDATA[모든 질문]]></value>
 		<value xml:lang="en"><![CDATA[All Questions]]></value>
 		<value xml:lang="zh-CN"><![CDATA[全部问题]]></value>
 	</item>
 	<item name="show">
-		<value xml:lang="ko"><![CDATA[Show]]></value>
+		<value xml:lang="ko"><![CDATA[보여주기]]></value>
 		<value xml:lang="en"><![CDATA[Show]]></value>
 		<value xml:lang="zh-CN"><![CDATA[显示]]></value>
 	</item>
 	<item name="all_answers">
-		<value xml:lang="ko"><![CDATA[All Answers]]></value>
+		<value xml:lang="ko"><![CDATA[모든 답변]]></value>
 		<value xml:lang="en"><![CDATA[All Answers]]></value>
 		<value xml:lang="zh-CN"><![CDATA[全部问题]]></value>
 	</item>
 	<item name="accepted_answer">
-		<value xml:lang="ko"><![CDATA[Accepted Answer]]></value>
+		<value xml:lang="ko"><![CDATA[채택된 답변]]></value>
 		<value xml:lang="en"><![CDATA[Accepted Answer]]></value>
 		<value xml:lang="zh-CN"><![CDATA[已接受的回答]]></value>
 	</item>
 	<item name="rated_sort">
-		<value xml:lang="ko"><![CDATA[Rated Highest to Lowest]]></value>
+		<value xml:lang="ko"><![CDATA[추천수 내림순]]></value>
 		<value xml:lang="en"><![CDATA[Rated Highest to Lowest]]></value>
 		<value xml:lang="zh-CN"><![CDATA[投票数量由高到低]]></value>
 	</item>
 	<item name="my_question_answer">
-		<value xml:lang="ko"><![CDATA[My Questions & Answers]]></value>
+		<value xml:lang="ko"><![CDATA[내 질문과 답변]]></value>
 		<value xml:lang="en"><![CDATA[My Questions & Answers]]></value>
 		<value xml:lang="zh-CN"><![CDATA[我的问题和回答]]></value>
 	</item>
 	<item name="popolar_question_answer">
-		<value xml:lang="ko"><![CDATA[Popular Questions & Answers]]></value>
+		<value xml:lang="ko"><![CDATA[인기질문과 답변]]></value>
 		<value xml:lang="en"><![CDATA[Popular Questions & Answers]]></value>
 		<value xml:lang="zh-CN"><![CDATA[热门问题和回答]]></value>
 	</item>
 	<item name="total_point">
-		<value xml:lang="ko"><![CDATA[Total Point]]></value>
+		<value xml:lang="ko"><![CDATA[전체 포인트]]></value>
 		<value xml:lang="en"><![CDATA[Total Point]]></value>
 		<value xml:lang="zh-CN"><![CDATA[总积分]]></value>
 	</item>
 	<item name="weekly_point">
-		<value xml:lang="ko"><![CDATA[Weekly Point]]></value>
+		<value xml:lang="ko"><![CDATA[주간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Weekly Point]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每周积分]]></value>
 	</item>
 	<item name="monthly_point">
-		<value xml:lang="ko"><![CDATA[Monthly Point]]></value>
+		<value xml:lang="ko"><![CDATA[월간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Monthly Point]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每月积分]]></value>
 	</item>
 	<item name="annually_point">
-		<value xml:lang="ko"><![CDATA[Annually Point]]></value>
+		<value xml:lang="ko"><![CDATA[연간 포인트 순위]]></value>
 		<value xml:lang="en"><![CDATA[Annually Point]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每年积分]]></value>
 	</item>

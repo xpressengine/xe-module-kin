@@ -128,7 +128,7 @@
 
             $args->module_srl = $module_srl;
             if(!is_null($category_srl)) $args->category_srl = $category_srl;
-            $args->sort_index = 'doc.list_order';
+            $args->sort_index = 'point.point';
             $args->order_type = 'desc';
             $args->page = $page;
             $args->list_count = $list_count;

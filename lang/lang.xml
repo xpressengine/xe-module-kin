@@ -373,7 +373,7 @@
 		<value xml:lang="zh-CN"><![CDATA[请输入知识问答系统标题]]></value>
 	</item>
 	<item name="answers">
-		<value xml:lang="ko"><![CDATA[딥변]]></value>
+		<value xml:lang="ko"><![CDATA[답변]]></value>
 		<value xml:lang="en"><![CDATA[Answers]]></value>
 		<value xml:lang="zh-CN"><![CDATA[回答]]></value>
 	</item>

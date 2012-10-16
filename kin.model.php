@@ -305,7 +305,7 @@
 				if(!$module_info->mskin || !is_dir($skin_path)) $skin_path = $module_path.'m.skins/default/';
 			} else {
 				$skin_path = $module_path.'skins/'.$module_info->skin.'/';
-				if(!$module_info->skin || !is_dir($skin_path)) $skin_path = $module_path.'skins/xe_official/';
+				if(!$module_info->skin || !is_dir($skin_path)) $skin_path = $module_path.'skins/xe_kin_official/';
 			}
 
             $oTemplateHandler = &TemplateHandler::getInstance();
@@ -391,5 +391,13 @@
             return $comment_list;
         }
 
-    }
+	 /**
+	  * @brief return module name in sitemap
+	  **/
+	 function triggerModuleListInSitemap(&$obj)
+	 {
+		 array_push($obj, 'kin');
+	 }
+
+	}
 ?>

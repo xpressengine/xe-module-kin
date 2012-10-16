@@ -5,6 +5,7 @@
     </tables>
     <columns>
         <column name="sum(p.point)" alias="point" />
+		<column name="m.member_srl" alias="member_srl" />
         <column name="m.user_name" alias="user_name" />
 		<column name="m.user_id" alias="user_id" />
 		<column name="m.nick_name" alias="nick_name" />
@@ -14,6 +15,7 @@
         <condition operation="in" column="p.member_srl" var="member_srl" pipe="and"/>
         <condition operation="excess" column="p.in_time" var="startTime" pipe="and"/>
         <condition operation="below" column="p.in_time" var="endTime" pipe="and" />
+		<condition operation="like" column="m.nick_name" var="search_keyword" pipe="and" />
     </conditions>
     <groups>
     	<group column="user_name" />

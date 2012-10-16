@@ -1,25 +1,30 @@
 <query id="getMyQuestions" action="select">
     <tables>
-        <table name="documents"  alias="doc"/>
+        <table name="documents" alias="doc"/>
+		<table name="kin_thread" alias="kin_thread" type="left join">
+			 <conditions>
+                <condition operation="equal" column="doc.document_srl" default="kin_thread.document_srl" filter="number" notnull="notnull" />
+            </conditions>
+		</table>
     </tables>
     <columns>
-        <column name="*" />
+        <column name="doc.*" />
+		<column name="kin_thread.selected" alias="selected" />
     </columns>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
-        <condition operation="in" column="category_srl" var="category_srl" pipe="and" />
-        <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="doc.module_srl" var="module_srl" filter="number" />
+		<group pipe="and">
+			<condition operation="in" column="doc.category_srl" var="category_srl" />
+			<condition operation="in" column="doc.category_srl" var="category_childs" pipe="or"/>
+		</group>
+        <condition operation="equal" column="doc.member_srl" var="member_srl" filter="number" pipe="and" />
         <group pipe="and">
-            <condition operation="like" column="doc.title" var="s_title" pipe="or"/>
-            <condition operation="like" column="doc.content" var="s_content" pipe="or" />
-            <condition operation="like" column="doc.user_name" var="s_user_name" pipe="or" />
-            <condition operation="like" column="doc.user_id" var="s_user_id" pipe="or" />
-            <condition operation="like" column="doc.nick_name" var="s_nick_name" pipe="or" />
-            <condition operation="like" column="doc.tags" var="s_tags" pipe="or" />
+            <condition operation="like" column="doc.title" var="search_keyword" />
+            <condition operation="like" column="doc.content" var="search_keyword" pipe="or" />
         </group>
     </conditions>
     <navigation>
-        <index var="sort_index" default="list_order" order="order_type" />
+        <index var="sort_index" default="doc.list_order" order="order_type" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

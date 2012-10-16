@@ -25,12 +25,15 @@
         <action name="dispKinWrite" type="view" />
         <action name="dispKinReply" type="view" />
         <action name="dispKinModifyReply" type="view" />
+		<action name="dispKinPointRank" type="view" />
 
         <action name="procKinInsert" type="controller" ruleset="insertQuestion"/>
         <action name="procKinSelectReply" type="controller" />
         <action name="procKinInsertReply" type="controller" ruleset="insertReply"/>
         <action name="procKinUpdateReply" type="controller" ruleset="updateReply"/>
         <action name="procKinDeleteReply" type="controller" />
+		<action name="procKinQuestionVote" type="controller" />
+		<action name="procKinAnswerVote" type="controller" />
 
         <action name="procKinDeleteDocument" type="controller" />
         <action name="procKinInsertComment" type="controller" standalone="true" ruleset="insertComment"/>
@@ -45,6 +48,7 @@
         <action name="dispKinAdminSkin" type="view" standalone="true" />
         <action name="dispKinAdminDelete" type="view" standalone="true" />
         <action name="dispKinAdminPointList" type="view" standalone="true"/>
+		<action name="dispKinAdminSkinInfo" type="view" standalone="true"  />
 
         <action name="procKinAdminInsert" type="controller" standalone="true" ruleset="insertKin"/>
         <action name="procKinAdminDelete" type="controller" standalone="true" ruleset="deleteKin"/>

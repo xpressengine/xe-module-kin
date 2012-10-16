@@ -1,6 +1,6 @@
 <?php
 class DataTime{
-	function getMonday($pTimeStamp=0, $pFlag=10)
+	public static function getMonday($pTimeStamp=0, $pFlag=10)
 	{
 		$theTime = $pTimeStamp==0 ? time() : $pTimeStamp;
 
@@ -9,7 +9,7 @@ class DataTime{
 		return self::getDateTime($pFlag, $theTime);
 	}
 
-	function getSunday($pTimeStamp=0, $pFlag=10){
+	public static function getSunday($pTimeStamp=0, $pFlag=10){
 		$theTime = $pTimeStamp==0 ? time() : $pTimeStamp;
 
 		$arr = getdate($theTime);
@@ -17,7 +17,7 @@ class DataTime{
 		return self::getDateTime($pFlag, $theTime);
 	}
 
-	function getDateTime($pFlag=10, $pTimeStamp=-1)
+	public static function getDateTime($pFlag=10, $pTimeStamp=-1)
 	{
 		$date_format = "Y-m-d";
 		switch($pFlag)

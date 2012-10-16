@@ -1,49 +1,24 @@
-<div class="shortReply">
-	<block cond="count($comment_list)">
-		<ul>
-		<li loop="$comment_list => $key,$val">
-			<div class="infoBox">
-				<span class="author"><a href="#" onclick="return false;" class="member_{$val->member_srl}">{$val->nick_name}</a></span>
-				<span class="date">
-					{zdate($val->regdate, "Y-m-d H:i")}
-					<a cond="$grant->manager || $val->member_srl == $logged_info->member_srl" href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteComment({$parent_srl},{$val->reply_srl},{$page}); return false;">&nbsp;[{$lang->cmd_delete}]</a>
-				</span>
-			</div>
-			<div class="content_kin">{htmlspecialchars($val->content)}</div>
-		</li>
-		</ul>
-
-
-		<div cond="$page_navigation->total_page>1" class="pagi">
-			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},1);" class="prevEnd">{$lang->first_page}</a>
-			<!--@while($page_no = $page_navigation->getNextPage())-->
-				<!--@if($page == $page_no)-->
-					<strong>{$page_no}</strong>
-				<!--@else-->
-					<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_no});">{$page_no}</a>
-				<!--@end-->
-			<!--@end-->
-			<a href="#replies_content_{$parent_srl}" onclick="doGetComments({$parent_srl},{$page_navigation->last_page});">{$lang->last_page}</a>
-		</div>
-    </block>
-
-    <form cond="$grant->write_reply" action="./" id="fo_kin_insert_comment" method="post" ruleset="insertComment">
-	<div>
+<form cond="$grant->write_reply" action="./" id="fo_kin_insert_comment" method="post" ruleset="insertComment">
 	<input type="hidden" name="act" value="procKinInsertComment"/>
     <input type="hidden" name="mid" value="{$mid}" />
     <input type="hidden" name="parent_srl" value="{$parent_srl}" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
-    <table class="comment_tb" cellspacing="0" cellpadding="0" >
-    <tr>
-		<td class="col1" ><textarea name="content" class="comment_textarea"/></td>
-		<td class="col2" style="">
-		<div>
-		<span class="button" >
-		<input type="submit" value="{$lang->cmd_registration}" /></span></div>
-		<div style="clear:both;height:0;"><span></span></div></td>
-	</tr>
-    </table>
-	</div>
-    </form>
-
-</div>
+	<fieldset>
+		<legend class="blind"></legend>
+		<div class="ta_box"><textarea name="content" id="" cols="104" rows="3"></textarea></div>
+		<span class="btn_sbmt"><input type="submit" value="{$lang->cmd_registration}" class="kin_submit"></span>
+	</fieldset>
+</form>
+<block cond="count($comment_list)">
+<ul class="lst_comment">
+	<li loop="$comment_list => $key,$val">
+		<div class="meta">
+			<span class="author">{$val->nick_name}</span>
+			<span class="date">{zdate($val->regdate, "Y-m-d H:i")} 
+			<a cond="$grant->manager || $val->member_srl == $logged_info->member_srl" href="#" onclick="if(confirm('{$lang->confirm_delete}')) doDeleteComment({$parent_srl},{$val->reply_srl},{$page}); return false;">&nbsp;[{$lang->cmd_delete}]</a>
+			</span>
+		</div>
+		<p class="comment">{htmlspecialchars($val->content)}</p>
+	</li>
+ </ul>
+</block>

@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinController
-     * @author NHN (developers@xpressengine.com)
+     * @author zero (skklove@gmail.com)
      * @brief  kin controller class
      **/
 
@@ -9,7 +9,7 @@
 
         function init() {
         }
-
+		
 		//insert question
         function procKinInsert() {
             $oDocumentModel = &getModel('document');
@@ -72,7 +72,7 @@
             $this->setMessage($msg_code);
 
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', $this->module_info->mid, 'act', 'dispKinIndex');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', $this->module_info->mid, 'document_srl', $obj->document_srl);
 				header('location:'.$returnUrl);
 				return;
 			}
@@ -156,7 +156,7 @@
         }
 
 
-		//�ύ�ش�
+		//�
         function procKinInsertReply() {
             $oKinModel = &getModel('kin');
             $oDocumentModel = &getModel('document');
@@ -168,6 +168,7 @@
             $oSourceDocument = $oDocumentModel->getDocument($document_srl);
             if(!$oSourceDocument->isExists()) return new Object(-1,'msg_invalid_request');
 
+
             //if($oKinModel->getSelectedReply($document_srl)) return new Object(-1,'msg_invalid_request');
 
             $obj->document_srl = $document_srl;
@@ -177,13 +178,29 @@
             $obj->content = Context::get('content');
             $obj->notify_message = 'Y';
             if(!$obj->content) return new Object(-1, 'msg_content_is_null');
-
+	
             $output = $oCommentController->insertComment($obj);
             if(!$output->toBool()) return $output;
 
             $this->add('document_srl', $oSourceDocument->get('document_srl'));
             $this->setMessage('success_registed');
 
+
+            unset($args);
+			$logged_info = Context::get('logged_info');
+            $args->document_srl = $obj->document_srl;
+            $args->comment_srl = $obj->comment_srl;
+            $args->member_srl = $logged_info->member_srl;
+            $oModuleModel = &getModel('module');
+			$pointConfigs = $oModuleModel->getModulePartConfigs('point');
+			$answer_point = $pointConfigs[$this->module_srl]['insert_comment'];
+			$args->point = $answer_point;
+            $args->in_time = time();
+            if($args->point){
+				$output = executeQuery('kin.insertKinPointLog', $args);
+			}
+
+	
 			if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON'))) {
 				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', $this->module_info->mid, 'document_srl',$obj->document_srl, 'act', 'dispKinView');
 				header('location:'.$returnUrl);
@@ -225,7 +242,7 @@
         }
 
 
-		//ɾ��ش�
+		//ɾ
         function procKinDeleteReply() {
             $oKinModel = &getModel('kin');
             $oDocumentModel = &getModel('document');
@@ -240,7 +257,7 @@
             $oSourceDocument = $oDocumentModel->getDocument($oReply->get('document_srl'));
             if(!$oSourceDocument->isExists()) return new Object(-1,'msg_invalid_request');
 
-            if($oKinModel->getSelectedReply($document_srl)==$document_srl) return new Object(-1,'msg_invalid_request');
+            if($oKinModel->getSelectedReply($document_srl)==$comment_srl) return new Object(-1,'msg_invalid_request');
 
             $oCommentController->deleteComment($oReply->comment_srl);
             $this->setMessage('success_deleted');
@@ -248,11 +265,11 @@
 
         function procKinInsertComment() {
             $oKinModel = &getModel('kin');
-
+			
             if(!$this->module_srl || !$this->grant->write_reply) return new Object(-1,'msg_invalid_request');
             $logged_info = Context::get('logged_info');
             if(!$logged_info->member_srl) return new Object(-1,'msg_invalid_request');
-
+			
             $args = Context::gets('parent_srl','content');
 			$document_srl = Context::get('document_srl');
 
@@ -281,38 +298,6 @@
 			}
         }
 
-         function triggerMemberMenu(&$obj) {
-            $member_srl = Context::get('target_srl');
-            $mid = Context::get('cur_mid');
-
-            if(!$member_srl || !$mid) return new Object();
-
-            $logged_info = Context::get('logged_info');
-
-            // 호출된 모듈의 정보 구함
-            $oModuleModel = &getModel('module');
-            $cur_module_info = $oModuleModel->getModuleInfoByMid($mid);
-
-            if($cur_module_info->module != 'kin') return new Object();
-
-            // 자신의 아이디를 클릭한 경우
-            if($member_srl == $logged_info->member_srl) {
-                $member_info = $logged_info;
-            } else {
-                $oMemberModel = &getModel('member');
-                $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-            }
-
-            if(!$member_info->user_id) return new Object();
-
-            // 아이디로 검색기능 추가
-            $url = getUrl('','mid',$mid,'search_target','nick_name','search_keyword',$member_info->nick_name);
-            $oMemberController = &getController('member');
-            $oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', './modules/member/tpl/images/icon_view_written.gif');
-
-            return new Object();
-        }
-
         function procKinDeleteComment() {
             $oKinModel = &getModel('kin');
 
@@ -335,5 +320,80 @@
             $this->add('parent_srl', $output->get('parent_srl'));
             $this->add('html', $output->get('html'));
         }
+
+		function procKinQuestionVote(){
+			$documentModel = &getModel('document');
+			$vars = Context::getRequestVars();
+
+			if(!$vars->document_srl || $vars->module != $this->module) return null;
+
+			$args->document_srl = $vars->document_srl;
+			$documentInfo = $documentModel->getDocument($args->document_srl);
+			$voted_count = $documentInfo->get('voted_count');
+			$extra_vars =  $documentInfo->get('extra_vars');
+
+			$extra_vars_explode = unserialize($extra_vars);
+			$voteExist = 1;
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+			$votesArr = explode(',',$extra_vars_explode->document_votes_ip);
+
+			if(!in_array($ipaddress,$votesArr)){ 
+				$votesArr[] = $ipaddress;
+				$voteExist = 0;
+			}else{
+				$this->add('voteExist', $voteExist);
+				return $voteExist;
+			}
+
+			$extra_vars_explode->document_votes_ip = implode(',',$votesArr);
+			$args->extra_vars =  serialize($extra_vars_explode);
+
+			$args->voted_count = intval($voted_count)+1;
+			
+			$output = executeQuery('kin.updateQuestionVote', $args);
+			return $output;
+		}
+
+		function procKinAnswerVote(){
+			$commentModel = &getModel('comment');
+			$vars = Context::getRequestVars();
+
+			if(!$vars->comment_srl || $vars->module != $this->module) return null;
+
+			$args->comment_srl = $vars->comment_srl;
+			$commentInfo = $commentModel->getComment($args->comment_srl);
+			$voted_count = $commentInfo->get('voted_count');
+
+			$oKinModel = &getModel('kin');
+			$vote_ip = $oKinModel->getAnswerVoteIPs($commentInfo->comment_srl);
+
+			$voteExist = 1;
+			$ipaddress = $_SERVER['REMOTE_ADDR'];
+
+			$votesArr = array();
+			if(!$vote_ip){
+				$votesArr[] = $ipaddress;
+				$voteExist = 0;
+				$args->vote_ipaddress = implode(',',$votesArr);
+				$output = executeQuery('kin.insertAnswerVoteIP', $args);
+			}else{
+				$votesArr = explode(',',$vote_ip);
+
+				if(!in_array($ipaddress,$votesArr)){ 
+					$votesArr[] = $ipaddress;
+					$voteExist = 0;
+					$args->vote_ipaddress = implode(',',$votesArr);
+					$output = executeQuery('kin.updateAnswerVoteIP', $args);
+				}else{
+					$this->add('voteExist', $voteExist);
+					return $voteExist;
+				}
+			}
+
+			$args->voted_count = intval($voted_count)+1;
+			$output = executeQuery('kin.updateAnswerVote', $args);
+			return $output;
+		}
+
     }
 ?>

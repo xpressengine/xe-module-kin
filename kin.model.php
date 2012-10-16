@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinModel
-     * @author NHN (developers@xpressengine.com)
+     * @author zero (skklove@gmail.com)
      * @brief  kin model class
      **/
 
@@ -10,48 +10,7 @@
         function init() {
         }
 
-        function _setSearchOption($searchOpt, &$args/*, &$query_id, &$use_division*/)
-		{
-			$search_target = $searchOpt->search_target;
-			$search_keyword = $searchOpt->search_keyword;
-
-            if($search_target && $search_keyword) {
-                switch($search_target) {
-                    case 'title' :
-                    case 'content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'title_content' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_title = $search_keyword;
-                            $args->s_content = $search_keyword;
-                        break;
-                    case 'user_id' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->s_user_id = $search_keyword;
-                            $args->sort_index = 'documents.'.$args->sort_index;
-                        break;
-                    case 'user_name' :
-                    case 'nick_name' :
-                            if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-                            $args->{"s_".$search_target} = $search_keyword;
-                        break;
-                    case 'comment' :
-                            $args->s_comment = $search_keyword;
-                            $query_id = 'document.getDocumentListWithinComment';
-                        break;
-                    case 'tag' :
-                            $args->s_tags = str_replace(' ','%',$search_keyword);
-                            $query_id = 'document.getDocumentListWithinTag';
-                        break;
-                    default :
-                        break;
-                }
-            }
-		}
-
-        function getNotRepliedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
+        function getNotRepliedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
             $oDocumentModel = &getModel('document');
 
             $args->module_srl = $module_srl;
@@ -62,36 +21,13 @@
             $args->list_count = $list_count;
             $args->page_count = 10;
             $args->comment_count = 0;
-            if(!is_null($search_keyword) && !is_null($search_target)) {
-            	$searchOption->search_target = $search_target;
-            	$searchOption->search_keyword = $search_keyword;
-            	$this->_setSearchOption($searchOption, $args);
-        	}
-
-        	if(isset($args->s_comment)){
-        		$queryId = 'kin.getNotRepliedQuestionsWithComment';
-        	}else{
-        		$queryId = 'kin.getNotRepliedQuestions';
-        	}
-            $output = executeQueryArray($queryId, $args);
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
+            $output = executeQueryArray('kin.getNotRepliedQuestions', $args);
             return $this->_arrangeDocument($output);
         }
 
-        function getRepliedCount($data){
-        	if(empty($data)){
-        		return array();
-        	}
-        	foreach($data as $key => $obj){
-        		if(is_a($obj,'commentItem')){
-        			$args->documentSrls[] = $obj->comment_srl;
-        		}
-        		$args->documentSrls[] = $obj->document_srl;
-        	}
-        	$output = executeQueryArray('kin.getRepliesCount', $args);
-			return $output;
-        }
-
-        function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
+        function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
             $oCommentModel = &getModel('comment');
 
             $args->module_srl = $module_srl;
@@ -103,25 +39,20 @@
             $args->page_count = 10;
             $args->comment_count = 0;
             $args->member_srl = $member_srl;
-            if(!is_null($search_keyword) && !is_null($search_target)) {
-            	$searchOption->search_target = $search_target;
-            	$searchOption->search_keyword = $search_keyword;
-            	$this->_setSearchOption($searchOption, $args);
-        	}
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
             $output = executeQueryArray('kin.getMyReplies', $args);
-
-            if(!$output->data) return array();
+            if(!$output->data) return $output;
             foreach($output->data as $key => $val) {
                 unset($oComment);
                 $oComment = $oCommentModel->getComment(0);
                 $oComment->setAttribute($val);
                 $output->data[$key] = $oComment;
-
             }
             return $output;
         }
 
-        function getNotSelectedReplies($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
+        function getNotSelectedReplies($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
             $oCommentModel = &getModel('comment');
 
             $args->module_srl = $module_srl;
@@ -130,11 +61,8 @@
             $args->page = $page;
             $args->sort_index = 'reply.list_order';
             $args->order_type = 'asc';
-            if(!is_null($search_keyword) && !is_null($search_target)) {
-            	$searchOption->search_target = $search_target;
-            	$searchOption->search_keyword = $search_keyword;
-            	$this->_setSearchOption($searchOption, $args);
-        	}
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
             $output = executeQueryArray('kin.getNotSelectedReplies', $args);
             if($output->data) {
                 foreach($output->data as $key => $val) {
@@ -154,7 +82,7 @@
             return $output;
         }
 
-        function getSelectedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null) {
+        function getSelectedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
             $oDocumentModel = &getModel('document');
 
             $args->module_srl = $module_srl;
@@ -165,13 +93,15 @@
             $args->list_count = $list_count;
             $args->comment_count = 0;
             if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
             $output = executeQueryArray('kin.getSelectedQuestions', $args);
             return $this->_arrangeDocument($output);
         }
 
-        function getMyQuestions($module_srl, $category_srl = null, $member_srl, $list_count = 20, $page = 1, $search_keyword = null, $search_target = null) {
+        function getMyQuestions($module_srl, $category_srl = null, $member_srl, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
             $oDocumentModel = &getModel('document');
 
+			$q_target = Context::get('q_target');
             $args->module_srl = $module_srl;
             if(!is_null($category_srl)) $args->category_srl = $category_srl;
             $args->sort_index = 'list_order';
@@ -179,19 +109,88 @@
             $args->page = $page;
             $args->list_count = $list_count;
             $args->member_srl = $member_srl;
-            if(!is_null($search_keyword) && !is_null($search_target)) {
-            	$searchOption->search_target = $search_target;
-            	$searchOption->search_keyword = $search_keyword;
-            	$this->_setSearchOption($searchOption, $args);
-        	}
-        	if(isset($args->s_comment)){
-        		$queryId = 'kin.getMyQuestionsWithComment';
-        	}else{
-        		$queryId = 'kin.getMyQuestions';
-        	}
-            $output = executeQueryArray($queryId, $args);
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
+			if($q_target == 'unsolved'){
+				$output = executeQueryArray('kin.getMyQuestionsUnsolved', $args);
+			}elseif($q_target == 'solved'){
+				$output = executeQueryArray('kin.getMyQuestionsSolved', $args);
+			}else{
+				$output = executeQueryArray('kin.getMyQuestions', $args);
+			}
+
             return $this->_arrangeDocument($output);
         }
+
+		// get high score questions
+        function getScoreNotSelectedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null) {
+            $oDocumentModel = &getModel('document');
+
+            $args->module_srl = $module_srl;
+            if(!is_null($category_srl)) $args->category_srl = $category_srl;
+            $args->sort_index = 'point.point';
+            $args->order_type = 'desc';
+            $args->page = $page;
+            $args->list_count = $list_count;
+            $args->page_count = 10;
+            $args->comment_count = 0;
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
+            $output = executeQueryArray('kin.getScoreNotSelectedQuestions', $args);
+            return $this->_arrangeDocument($output);
+        }
+
+		function getPopularQuestions($module_srl, $category_srl = null, $list_count = 10, $page = 1, $search_keyword = null, $category_childs = null) {
+			$oDocumentModel = &getModel('document');
+
+            $args->module_srl = $module_srl;
+            if(!is_null($category_srl)) $args->category_srl = $category_srl;
+
+			$q_target = Context::get('q_target');
+
+			$args->sort_index = 'doc.voted_count';
+            $args->order_type = 'desc';
+            $args->page = $page;
+            $args->list_count = $list_count;
+            $args->page_count = 10;
+            $args->comment_count = 0;
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
+			if($q_target == 'unsolved'){
+				$output = executeQueryArray('kin.getPopularQuestionsUnsolved', $args);
+			}elseif($q_target == 'solved'){
+				$output = executeQueryArray('kin.getPopularQuestionsSolved', $args);
+			}else{
+				$output = executeQueryArray('kin.getPopularQuestions', $args);
+			}
+            return $this->_arrangeDocument($output);
+		}
+
+		function getPopularReplies($module_srl, $category_srl = null, $list_count = 10, $page = 1, $search_keyword = null, $category_childs = null) {
+			$oCommentModel = &getModel('comment');
+
+            $args->module_srl = $module_srl;
+            if(!is_null($category_srl)) $args->category_srl = $category_srl;
+            $args->sort_index = 'reply.voted_count';
+            $args->order_type = 'desc';
+            $args->page = $page;
+            $args->list_count = $list_count;
+            $args->page_count = 10;
+            $args->comment_count = 0;
+            $args->member_srl = $member_srl;
+            if(!is_null($search_keyword)) $args->search_keyword = str_replace(' ','%',$search_keyword);
+			if(!is_null($category_childs)) $args->category_childs = implode($category_childs,',');
+            $output = executeQueryArray('kin.getPopularReplies', $args);
+            if(!$output->data) return $output;
+            foreach($output->data as $key => $val) {
+                unset($oComment);
+                $oComment = $oCommentModel->getComment(0);
+                $oComment->setAttribute($val);
+                $output->data[$key] = $oComment;
+            }
+            return $output;
+		}
+
 
         function _arrangeDocument($output) {
             $oDocumentModel = &getModel('document');
@@ -217,7 +216,7 @@
             $output = executeQuery('kin.getKinPoint', $args);
             return $output->data->point;
         }
-
+		
 		function getTotalKinPoint($limit = 5,$member_srl = null) {
             $args->limit = $limit;
 			if(!empty($member_srl)){
@@ -230,28 +229,34 @@
 
 		function _transObjToArr($obj){
 			$result = (array)$obj;
-			foreach($result as $val){
-            	$val = (array)$val;
+			foreach($result as $key=>$val){
+            	$result[$key] = (array)$val;
             }
             return $result;
 		}
 
-        function getTopKinPoints($listNumber = 5, $startTime = null, $endTime = null, $member_srl = array()) {
+        function getTopKinPoints($listNumber = 5, $startTime = null, $endTime = null, $member_srl = array(), $page = 1, $format = 0, $search_keyword=null) {
         	if(!empty($member_srl)){
         		$args->member_srl = implode(',',$member_srl);
         	}
 
-        	if(!empty($listNumber) && $listNumber === 0){
-        		$args->listNumber = $listNumber;
-        	}
+			$args->listNumber = $listNumber;
+
         	if(!empty($startTime)){
         		$args->startTime = $startTime;
         	}
         	if(!empty($endTime)){
         		$args->endTime = $endTime;
         	}
+			if($search_keyword){
+				$args->search_keyword = $search_keyword;
+			}
+
+			$args->page = $page;
             $output = executeQuery('kin.getTopKinPoints', $args);
 
+			if($format==1) return $output;
+			
             $result = $this->_transObjToArr($output->data);
             return $result;
         }
@@ -314,12 +319,85 @@
 			$point = $oPointModel->getPoint($member_srl);
 
         }
-        /** 
-         * @brief return module name in sitemap
-         **/
-		function triggerModuleListInSitemap(&$obj)
-		{
-			array_push($obj, 'kin');
+
+		function getMemberQuestionsCount($module_srl, $member_srl){
+			if(!$module_srl || !$member_srl) return new Object(-1,'msg_invalid_request');
+
+			$args->module_srl = $module_srl;
+			$args->member_srl = $member_srl;
+
+			$output = executeQuery('kin.getMemberQuestionsCount', $args);
+			if(!$output->data) return 0;
+			
+			return $output->data->question_count;
 		}
-    }
+
+		function getMemberAnswerCount($module_srl, $member_srl){
+			if(!$module_srl || !$member_srl) return new Object(-1,'msg_invalid_request');
+
+			$args->module_srl = $module_srl;
+			$args->member_srl = $member_srl;
+
+			$output = executeQuery('kin.getMemberAnswerCount', $args);
+			if(!$output->data) return 0;
+			
+			return $output->data->answer_count;
+		}
+
+		function getMemberAcceptedAnswerCount($module_srl, $member_srl){
+			if(!$module_srl || !$member_srl) return new Object(-1,'msg_invalid_request');
+
+			$args->module_srl = $module_srl;
+			$args->member_srl = $member_srl;
+
+			$output = executeQuery('kin.getMemberAcceptedAnswerCount', $args);
+			if(!$output->data) return 0;
+			
+			return $output->data->accepted_count;
+		}
+
+		function getAnswerVoteIPs($comment_srl){
+			if(!$comment_srl) return new Object(-1,'msg_invalid_request');
+
+			$args->comment_srl = $comment_srl;
+			$output = executeQuery('kin.getAnswerVoteIPs', $args);
+
+			if(!$output->data) return null;
+			return $output->data->vote_ipaddress;
+		}
+
+	 function getDocumentRepliesBySort($module_srl, $document_srl, $sort_index = 'list_order') {
+            $oCommentModel = &getModel('comment');
+
+            $args->module_srl = $module_srl;
+			$args->document_srl = $document_srl;
+            $args->sort_index = $sort_index;
+            $args->order_type = 'desc';
+           
+            $output = executeQueryArray('kin.getDocumentRepliesBySort', $args);
+            if(!$output->data) return null;
+
+			foreach($output->data as $key => $val) {
+                $oCommentItem = new commentItem();
+                $oCommentItem->setAttribute($val);
+                // If permission is granted to the post, you can access it temporarily
+                if($oCommentItem->isGranted()) $accessible[$val->comment_srl] = true;
+                // If the comment is set to private and it belongs child post, it is allowable to read the comment for who has a admin privilege on its parent post
+                if($val->parent_srl>0 && $val->is_secret == 'Y' && !$oCommentItem->isAccessible() && $accessible[$val->parent_srl]===true) {
+                    $oCommentItem->setAccessible();
+                }
+                $comment_list[$val->comment_srl] = $oCommentItem;
+            }
+            return $comment_list;
+        }
+
+	 /**
+	  * @brief return module name in sitemap
+	  **/
+	 function triggerModuleListInSitemap(&$obj)
+	 {
+		 array_push($obj, 'kin');
+	 }
+
+	}
 ?>

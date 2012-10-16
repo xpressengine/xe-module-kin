@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinView
-     * @author NHN (developers@xpressengine.com)
+     * @author zero (skklove@gmail.com)
      * @brief  kin view class
      **/
 
@@ -34,62 +34,121 @@
 
             $category_srl = Context::get('category_srl');
 			if(!$category_srl) $category_srl = Context::get('category');
+			else{
+				$category_info =  $oDocumentModel->getCategory($category_srl);
+				Context::set('category_info', $category_info);
+
+				$parent_srl = Context::get('parent_srl');
+				if($parent_srl){
+					$parent_category_info =  $oDocumentModel->getCategory($parent_srl);
+					Context::set('parent_category_info', $parent_category_info);
+					$childCategoryCount = $oDocumentModel->getCategoryChlidCount($parent_srl);
+					
+					if($childCategoryCount){
+						$categories = Context::get('categories');
+						$category_childs = $categories[$parent_srl]->childs;
+						$category_child_list = array();
+						if($category_childs){
+							foreach($category_childs as $key => $child_category_srl){
+								$child_category_info =  $oDocumentModel->getCategory($child_category_srl);
+								$category_child_list[$child_category_srl] = $child_category_info;
+							}
+						}
+					}
+					Context::set('category_child_list',$category_child_list);
+
+				}else{
+					$childCategoryCount = $oDocumentModel->getCategoryChlidCount($category_srl);
+					if($childCategoryCount){
+						$categories = Context::get('categories');
+						$category_childs = $categories[$category_srl]->childs;
+
+						$category_child_list = array();
+						foreach($category_childs as $key => $child_category_srl){
+							$child_category_info =  $oDocumentModel->getCategory($child_category_srl);
+							$category_child_list[$child_category_srl] = $child_category_info;
+						}
+						Context::set('category_child_list',$category_child_list);
+					}
+				}
+
+			}
 
             $page = Context::get('page');
             if(!$page) Context::set('page',$page=1);
             $type = Context::get('type');
             if(!Context::get('is_logged')&&$type == 'my_questions') $type = '';
+			
+			// default type is questions
+			if(!$type) $type = 'questions';
+			Context::set('type',$type);
+
+
             $logged_info = Context::get('logged_info');
 
-			foreach($this->search_option as $opt) $search_option[$opt] = Context::getLang($opt);
-
-            Context::set('search_option', $search_option);
-
             $search_keyword = Context::get('search_keyword');
-            $search_target = Context::get('search_target');
+			
+			// re-initialize category children
+			$category_childs = $categories[$category_srl]->childs;
             switch($type) {
                 case 'questions' :
-                        $output = $oKinModel->getNotRepliedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+                        $output = $oKinModel->getNotRepliedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('document_list', $output->data);
                     break;
                 case 'replies' :
-                        $output = $oKinModel->getNotSelectedReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
-
+                        $output = $oKinModel->getNotSelectedReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('reply_list', $output->data);
                     break;
                 case 'selected' :
-                        $output = $oKinModel->getSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+                        $output = $oKinModel->getSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
+                        Context::set('document_list', $output->data);
+                    break;
+				 case 'score' :
+                        $output = $oKinModel->getScoreNotSelectedQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_questions' :
-                        $output = $oKinModel->getMyQuestions($this->module_srl, $category_srl, $logged_info->member_srl, $this->list_count, $page, $search_keyword, $search_target);
+                        $output = $oKinModel->getMyQuestions($this->module_srl, $category_srl, $logged_info->member_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('document_list', $output->data);
                     break;
                 case 'my_replies' :
-                        $output = $oKinModel->getMyReplies($this->module_srl, $logged_info->member_srl, $category_srl, $this->list_count, $page, $search_keyword, $search_target);
+                        $output = $oKinModel->getMyReplies($this->module_srl, $logged_info->member_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
                         Context::set('reply_list', $output->data);
+                    break;
+				  case 'popular' :
+                        $output = $oKinModel->getPopularQuestions($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
+                        Context::set('document_list', $output->data);
+                    break;
+				  case 'popular_answers' :
+                        $output = $oKinModel->getPopularReplies($this->module_srl, $category_srl, $this->list_count, $page, $search_keyword, $category_childs);
+                        Context::set('reply_list', $output->data);
+                    break;
+				case 'all' :
+						$obj->module_srl = $this->module_srl;
+                        $obj->page = $page;
+                        $obj->category_srl = $category_srl;
+                        $obj->list_count = $this->list_count;
+                        if($search_keyword) {
+                            $obj->search_target = 'title_content';
+                            $obj->search_keyword = $search_keyword;
+                        }
+                        $output = $oDocumentModel->getDocumentList($obj);
+                        Context::set('document_list', $output->data);
                     break;
                 default :
                         $obj->module_srl = $this->module_srl;
                         $obj->page = $page;
                         $obj->category_srl = $category_srl;
                         $obj->list_count = $this->list_count;
-                        if(!empty($search_keyword)) {
+                        if($search_keyword) {
+                            $obj->search_target = 'title_content';
                             $obj->search_keyword = $search_keyword;
-                        }
-                        if(!empty($search_target)){
-                        	$obj->search_target = $search_target;
                         }
                         $output = $oDocumentModel->getDocumentList($obj);
                         Context::set('document_list', $output->data);
                     break;
             }
-            Context::set('needRepConType', array('questions','selected','my_questions'));
             Context::set('page_navigation', $output->page_navigation);
-            $output2 = $oKinModel->getRepliedCount($output->data);
-            if(!empty($output2)){
-            	Context::set('comment_count', $output2->data);
-            }
 
             //trans $output->data object to array $output->data:question or replies and their point
             if(count($output->data)) {
@@ -110,9 +169,6 @@
                 }
             }
 
-            //get user points top 5
-            //$topRes['total'] = $oKinModel->getTotalKinPoint();
-
             //get user point by date last week
             $startTime = time()-86400*7;
             $endTime = time();
@@ -128,10 +184,18 @@
             $endTime = time();
             $topRes['lastYear'] = $oKinModel->getTopKinPoints(5, $startTime, $endTime);
 
-            //get login user point
+			// total point ranking
+			$topRes['totalPoint'] = $oKinModel->getTopKinPoints(5);
+
+			//get login user point
             $topRes['userPoint'] = current($oKinModel->getTotalKinPoint(1,$logged_info->member_srl));
 
             Context::set('document_top', $topRes);
+
+			// get top 5 popular question
+			$output = $oKinModel->getPopularQuestions($this->module_srl, null, 5);
+			$popular_list = $output->data;
+			Context::set('popular_list', $popular_list);
 
             Context::set('is_logged', Context::get('is_logged'));
         }
@@ -140,6 +204,7 @@
         function dispKinView() {
             $oModuleModel = &getModel('module');
             $oDocumentModel = &getModel('document');
+			$oCommentModel = &getModel('comment');
             $oKinModel = &getModel('kin');
 
             $oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
@@ -171,6 +236,28 @@
             $point_config = $oModuleModel->getModuleConfig('point');
             Context::set('point_name', $point_config->point_name?$point_config->point_name:'point');
             Context::set('document_point', $point);
+
+			// arrange answer sorting
+			$a_target = Context::get('a_target')?Context::get('a_target'):'all';
+
+			switch($a_target){
+				case 'all':
+						$answer_list = $oDocument ->getComments();
+					break;
+				case 'accepted':
+						$accepted_answer_srl = $oKinModel->getSelectedReply($oDocument->document_srl);
+						if(!$accepted_answer_srl) $answer_list = null;
+						else $answer_list[] = $oCommentModel->getComment($accepted_answer_srl);
+					break;
+				case 'vote':
+						 $answer_list = $oKinModel->getDocumentRepliesBySort($this->module_srl, $oDocument->document_srl, 'voted_count');
+					break;
+				default:
+						$answer_list = $oDocument ->getComments();
+					break;
+			}
+
+			Context::set('answer_list', $answer_list);
 
             Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
         }
@@ -252,6 +339,79 @@
 
             Context::set('oReply', $oReply);
         }
+
+		//view point ranking information
+        function dispKinPointRank() {
+            $logged_info = Context::get('logged_info');
+            $oKinModel = &getModel('kin');
+
+			$rank_target = Context::get('rtarget')?Context::get('rtarget'):'total';
+			Context::set('rtarget',$rank_target);
+			$limit_count = 20;
+			$page = Context::get('page')?Context::get('page'):1;
+            Context::set('page',$page);
+	
+			$search_keyword = Context::get('search_keyword');
+			$output  = null;
+			switch($rank_target){
+				case 'total':
+					$output = $oKinModel->getTopKinPoints($limit_count , null, null, null, $page, 1, $search_keyword);
+					break;
+				case 'week':
+					$startTime = time()-86400*7;
+					$endTime = time();
+					$output = $oKinModel->getTopKinPoints($limit_count , $startTime, $endTime, null, $page, 1, $search_keyword);
+					break;
+				case 'month':
+					$startTime = strtotime('last Month');
+					$endTime = time();
+					$output = $oKinModel->getTopKinPoints($limit_count , $startTime, $endTime, null, $page, 1, $search_keyword);
+					break;
+				case 'annual':
+					$startTime = strtotime('last Year');
+					$endTime = time();
+					$output = $oKinModel->getTopKinPoints($limit_count , $startTime, $endTime, null, $page, 1, $search_keyword);
+					break;
+				default:
+					$output = $oKinModel->getTopKinPoints($limit_count , null, null, null, $page, 1, $search_keyword);
+					break;
+			}
+
+			$member_point_rank = $output->data;
+			if($member_point_rank){
+				foreach($member_point_rank as $key => $member){
+					$question_count = $oKinModel->getMemberQuestionsCount($this->module_srl, $member->member_srl);
+					$answer_count = $oKinModel->getMemberAnswerCount($this->module_srl, $member->member_srl);
+					$accepted_count = $oKinModel->getMemberAcceptedAnswerCount($this->module_srl, $member->member_srl);
+					$member_point_rank[$key]->question_count = $question_count;
+					$member_point_rank[$key]->answer_count = $answer_count;
+					$member_point_rank[$key]->accepted_count = $accepted_count;
+				}
+			}
+
+			Context::set('page_navigation', $output->page_navigation);			
+			Context::set('member_point_rank', $member_point_rank);
+
+			//get user point by date last week
+            $startTime = time()-86400*7;
+            $endTime = time();
+            $topRes['lastWeek'] = $oKinModel->getTopKinPoints(5, $startTime, $endTime);
+
+			// total point ranking
+			$topRes['totalPoint'] = $oKinModel->getTopKinPoints(5);
+
+			//get login user point
+            $topRes['userPoint'] = current($oKinModel->getTotalKinPoint(1,$logged_info->member_srl));
+
+			Context::set('document_top', $topRes);
+
+			// get top 5 popular question
+			$output = $oKinModel->getPopularQuestions($this->module_srl, null, 5);
+			$popular_list = $output->data;
+			Context::set('popular_list', $popular_list);
+
+			Context::set('is_logged', Context::get('is_logged'));
+		}
 
     }
 ?>

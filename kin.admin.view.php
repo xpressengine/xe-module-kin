@@ -1,7 +1,7 @@
 <?php
     /**
      * @class  kinAdminView
-     * @author NHN (developers@xpressengine.com)
+     * @author zero (skklove@gmail.com)
      * @brief  kin admin view class
      **/
 
@@ -82,5 +82,14 @@
             Context::set('document_count', $oDocumentModel->getDocumentCount($this->module_info->module_srl));
         }
         
+		function dispKinAdminSkinInfo(){
+			$oModuleAdminModel = &getAdminModel('module');
+            $skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
+
+            Context::set('skin_content', $skin_content);
+
+            $this->setTemplateFile('skin_info');
+		}
+
     }
 

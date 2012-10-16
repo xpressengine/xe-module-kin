@@ -84,7 +84,50 @@ jQuery(function($) {
 		sCate.parent('ul').parent('li').attr('class','gCate selected');
 	 }
 
+
 });
+
+function voteQuestion(document_srl){
+	var params = new Array();
+	params['document_srl'] = document_srl;
+	
+	var completeVote = function(ret_obj, response_tags){
+		var voteExist = parseInt(ret_obj['voteExist']);
+
+		if(voteExist == 1){
+			alert('You have voted this question already, please don\'t vote again ');
+		}else{
+			var item='#q_voteno_'+document_srl;
+			var new_vote_no = parseInt(jQuery(item).html()) + 1;
+			jQuery(item).html(new_vote_no);
+			alert('Thank you for your vote!');
+		}
+	};
+	var response_tags = new Array('error','message','page','mid','voteExist');
+	exec_xml('kin', 'procKinQuestionVote', params, completeVote, response_tags);
+}
+
+function voteAnswer(comment_srl){
+	var params = new Array();
+	params['comment_srl'] = comment_srl;
+	
+	var completeVote = function(ret_obj, response_tags){
+		var voteExist = parseInt(ret_obj['voteExist']);
+
+		if(voteExist == 1){
+			alert('You have voted this answer already, please don\'t vote again ');
+		}else{
+			var item='#c_voteno_'+comment_srl;
+			var new_vote_no = parseInt(jQuery(item).html()) + 1;
+			jQuery(item).html(new_vote_no);
+			alert('Thank you for your vote!');
+		}
+	};
+	var response_tags = new Array('error','message','page','mid','voteExist');
+	exec_xml('kin', 'procKinAnswerVote', params, completeVote, response_tags);
+
+}
+
 
 function completeWriteDocument(ret_obj) {
     alert(ret_obj['message']);
@@ -132,6 +175,8 @@ function doGetComments(document_srl,parent_srl, page) {
 function displayComments(ret_obj) {
     var parent_srl = ret_obj['parent_srl'];
     var html = ret_obj['html'];
+	
+	if(!html) alert('Please login first.')
 
     var o = jQuery('#replies_'+parent_srl);
     var o = jQuery('#replies_content_'+parent_srl);

@@ -12,11 +12,11 @@
 
 	<div class="ln">
 		<ul>
-			<li class="noLine <!--@if(!$type)-->active<!--@end-->">
+			<li class="noLine <!--@if($type == 'all')-->active<!--@end-->">
 				<!--@if($search_keyword)-->
-				<a href="{getUrl('page',1,'type','')}">{$lang->search_result}</a>
+				<a href="{getUrl('page',1,'type','all')}">{$lang->search_result}</a>
 				<!--@else-->
-				<a href="{getUrl('page',1,'type','')}">{$lang->kin_all_questions}</a>
+				<a href="{getUrl('page',1,'type','all')}">{$lang->kin_all_questions}</a>
 				<!--@end-->
 			</li>
 			<li <!--@if($type=='questions')-->class="active"<!--@end-->><a href="{getUrl('page',1,'type','questions')}">{$lang->kin_main_tabs[2]}</a></li>

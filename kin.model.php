@@ -227,10 +227,10 @@
             return $result;
         }
 
-		private function _transObjToArr($obj){
+		function _transObjToArr($obj){
 			$result = (array)$obj;
-			foreach($result as &$val){
-            	$val = (array)$val;
+			foreach($result as $key=>$val){
+            	$result[$key] = (array)$val;
             }
             return $result;
 		}

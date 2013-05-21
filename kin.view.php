@@ -12,7 +12,6 @@ class kinView extends kin
 	function init()
 	{
 		$oDocumentModel = &getModel('document');
-		if($this->module_info->use_category=='Y') Context::set('categories', $oDocumentModel->getCategoryList($this->module_srl));
 		if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
 
 		$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
@@ -21,8 +20,23 @@ class kinView extends kin
 			$this->module_info->skin = 'xe_kin_official';
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		}
+
+		$categories = $oDocumentModel->getCategoryList($this->module_info->module_srl);
+		if($this->module_info->hide_category != 'Y' && count($categories))
+		{
+			$this->module_info->use_category = 'Y';
+			Context::set('categories', $categories);
+		}
+		else
+		{
+			$this->module_info->use_category = 'N';
+		}
+
 		$this->setTemplatePath($template_path);
 		$this->setTemplateFile(strtolower(str_replace('dispKin','',$this->act)));
+
+		$security = new Security($this->module_info);
+		$security->encodeHTML('.qa_title');
 	}
 
 	function dispKinIndex()
@@ -219,7 +233,8 @@ class kinView extends kin
 		$popular_list = $output->data;
 		Context::set('popular_list', $popular_list);
 
-		Context::set('is_logged', Context::get('is_logged'));
+		$security = new security();
+		$security->encodeHTML('document_top...');
 	}
 
 	//view the question and replies list
@@ -450,12 +465,9 @@ class kinView extends kin
 
 		Context::set('document_top', $topRes);
 
-		// get top 5 popular question
-		$output = $oKinModel->getPopularQuestions($this->module_srl, null, 5);
-		$popular_list = $output->data;
-		Context::set('popular_list', $popular_list);
-
-		Context::set('is_logged', Context::get('is_logged'));
+		$security = new security();
+		$security->encodeHTML('document_top...');
+		$security->encodeHTML('member_point_rank..');
 	}
 
 }

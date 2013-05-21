@@ -6,7 +6,6 @@ class kinMobile extends kinView {
 	function init()
 	{
 		$oDocumentModel = &getModel('document');
-		if($this->module_info->use_category=='Y') Context::set('categories', $oDocumentModel->getCategoryList($this->module_srl));
 
 		$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 		if(!is_dir($template_path)||!$this->module_info->mskin)
@@ -14,6 +13,18 @@ class kinMobile extends kinView {
 			$this->module_info->mskin = 'default';
 			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 		}
+
+		$categories = $oDocumentModel->getCategoryList($this->module_srl);
+		if($this->module_info->hide_category != 'Y' && count($categories))
+		{
+			$this->module_info->use_category = 'Y';
+			Context::set('categories', $categories);
+		}
+		else
+		{
+			$this->module_info->use_category = 'N';
+		}
+
 		$this->setTemplatePath($template_path);
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
 	}
@@ -23,13 +34,22 @@ class kinMobile extends kinView {
 		$this->list_count = 10;
 
 		if(Context::get('document_srl')) return $this->dispKinView();
-		parent::dispKinIndex();
+		$output = parent::dispKinIndex();
+		if(is_a($output, 'Object') && !$output->toBool())
+		{
+			return $output;
+		}
+
 		$this->setTemplateFile('index.html');
 	}
 
 	function dispKinWrite()
 	{
-		parent::dispKinWrite();
+		$output = parent::dispKinWrite();
+		if(is_a($output, 'Object') && !$output->toBool())
+		{
+			return $output;
+		}
 
 		$this->setTemplateFile('write.html');
 	}

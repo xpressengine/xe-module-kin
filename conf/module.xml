@@ -26,6 +26,8 @@
 		<action name="dispKinReply" type="view" />
 		<action name="dispKinModifyReply" type="view" />
 		<action name="dispKinPointRank" type="view" />
+		<action name="dispKinCategory" type="mobile" />
+		<action name="getKinCommentPage" type="mobile" />
 
 		<action name="procKinInsert" type="controller" ruleset="insertQuestion"/>
 		<action name="procKinSelectReply" type="controller" />
@@ -49,8 +51,10 @@
 		<action name="dispKinAdminDelete" type="view" />
 		<action name="dispKinAdminPointList" type="view"/>
 		<action name="dispKinAdminSkinInfo" type="view"  />
+		<action name="dispKinAdminMobileSkinInfo" type="view" standalone="true"  />
 
 		<action name="procKinAdminInsert" type="controller" ruleset="insertKin"/>
+		<action name="procKinAdminSaveCategorySettings" type="controller" standalone="true" />
 		<action name="procKinAdminDelete" type="controller" ruleset="deleteKin"/>
 
 	</actions>

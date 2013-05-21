@@ -43,7 +43,15 @@ class kinAdminController extends kin
 			$msg_code = 'success_updated';
 		}
 
-		if(!$output->toBool()) return $output;
+		if(!$args->module_srl) {
+			$args->hide_category = 'N';
+			$output = $oModuleController->insertModule($args);
+			$msg_code = 'success_registed';
+		} else {
+			$args->hide_category = $module_info->hide_category;
+			$output = $oModuleController->updateModule($args);
+			$msg_code = 'success_updated';
+		}
 
 		$this->setMessage($msg_code);
 
@@ -55,8 +63,38 @@ class kinAdminController extends kin
 		}
 	}
 
-	function procKinAdminDelete()
+	function procKinAdminSaveCategorySettings()
 	{
+		$module_srl = Context::get('module_srl');
+		$mid = Context::get('mid');
+
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		if($module_info->mid != $mid)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		$module_info->hide_category = Context::get('hide_category') == 'Y' ? 'Y' : 'N';
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModule($module_info);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_updated');
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispKinAdminCategory', 'module_srl', $output->get('module_srl')));
+		}
+	}
+
+	function procKinAdminDelete() {
 		$oModuleController = &getController('module');
 
 		$module_srl = Context::get('module_srl');

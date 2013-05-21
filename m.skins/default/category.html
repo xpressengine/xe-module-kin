@@ -1,6 +1,6 @@
 <!--%import("css/mkin.css")-->
 <div class="bd">
-<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->category}</h2>
+<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{htmlspecialchars($module_info->browser_title)}</a> &rsaquo; {$lang->category}</h2>
 <ul class="gn">
 	{@ $start = true }
 	{@ $depth = 0 }

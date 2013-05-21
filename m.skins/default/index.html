@@ -2,7 +2,7 @@
 {@ Context::addJsFile("./common/js/jquery.js", true, '', -100000) }
 
 <div class="bd">
-	<h2 class="h2">
+	<h2 class="h2" style="min-height:23px">
 		<a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->title}<!--@if($module_info->sub_title)--> - {$module_info->sub_title}<!--@end--></a>
 		<!--@if($module_info->use_category == 'Y')--><a href="{getUrl('page','','act','dispKinCategory','')}" class="bn">{$lang->category}</a><!--@end-->
 	</h2>
@@ -26,8 +26,22 @@
 			<li <!--@if($type=='my_questions')-->class="active"<!--@end-->><a href="{getUrl('page',1,'type','my_questions')}">{$lang->kin_main_tabs[5]}</a></li>
 			<li <!--@if($type=='my_replies')-->class="active"<!--@end-->><a href="{getUrl('page',1,'type','my_replies')}">{$lang->kin_main_tabs[6]}</a></li>
 			<!--@end-->
-			</ul>
-			<button type="button" class="next" title="{$lang->more}"></button>
+		</ul>
+		<script>
+			(function($){
+				function adjust_position(e){
+					var $ul = $('div.ln ul');
+					var $active = $('div.ln li.active');
+					var width = $ul.width();
+					var left = $active.offset().left;
+					var width2 = $active.outerWidth();
+					if(left + width2  > width){
+						$ul.scrollLeft(left + width2);
+					}
+				}
+				$(window).bind('resize', adjust_position).trigger('resize');
+			})(jQuery);
+		</script>
 	</div>
 
 	<!--@if(count($document_list))-->

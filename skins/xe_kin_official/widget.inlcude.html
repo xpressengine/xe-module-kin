@@ -8,7 +8,7 @@
 			</thead>
 			<tbody>
 				<tr loop="$popular_list =>$key, $val">
-					<td><a href="{getUrl('','document_srl',$val->document_srl)}">{cut_str($val->get('title'),30,'...')}</a></td>
+					<td><a href="{getUrl('','document_srl',$val->document_srl)}">{$val->getTitle(30)}</a></td>
 				</tr>
 				<tr cond="!$popular_list"><td><a href="" onclick="return false;">No popular questions information</a></td></tr>
 			</tbody>
@@ -68,7 +68,7 @@
 		<div class="w_body">
 			<ul class="lst_title">
 				<li loop="$popular_list =>$key, $val">
-					<a href="{getUrl('','document_srl',$val->document_srl)}">{$val->get('title')}</a>
+					<a href="{getUrl('','document_srl',$val->document_srl)}">{$val->getTitle()}</a>
 				</li>
 				<li cond="!$popular_list"><a href="" onclick="return false;">No popular questions information</a></li>
 			</ul>

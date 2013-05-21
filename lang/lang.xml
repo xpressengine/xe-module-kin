@@ -499,4 +499,28 @@
 		<value xml:lang="en"><![CDATA[Annually Point]]></value>
 		<value xml:lang="zh-CN"><![CDATA[每年积分]]></value>
 	</item>
+	<item name="no_kin_instance">
+		<value xml:lang="ko"><![CDATA[생성된 지식인이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[There is no Q&amp;A system created.]]></value>
+	</item>
+	<item name="cmd_manage_selected_kin">
+		<value xml:lang="ko"><![CDATA[선택한 지식인 관리]]></value>
+		<value xml:lang="en"><![CDATA[Manage selected Q&amp;A system]]></value>
+	</item>
+	<item name="choose_kin_instance">
+		<value xml:lang="ko"><![CDATA[관리할 지식인을 선택해 주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please choose one or more Q&amp;A system instance.]]></value>
+	</item>
+	<item name="category_settings">
+		<value xml:lang="ko"><![CDATA[분류 설정]]></value>
+		<value xml:lang="en"><![CDATA[Category settings]]></value>
+	</item>
+	<item name="hide_category">
+		<value xml:lang="ko"><![CDATA[분류 숨기기]]></value>
+		<value xml:lang="en"><![CDATA[Hide categories]]></value>
+	</item>
+	<item name="about_hide_category">
+		<value xml:lang="ko"><![CDATA[임시로 분류를 사용하지 않으려면 체크하세요.]]></value>
+		<value xml:lang="en"><![CDATA[You can disable a category feature.]]></value>
+	</item>
 </lang>

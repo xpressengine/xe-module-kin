@@ -8,7 +8,7 @@
 <!--%import("css/mkin.css")-->
 <!--%import("filter/write_document.xml")-->
 <div class="bd">
-<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->cmd_write}</h2>
+<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{htmlspecialchars($module_info->browser_title)}</a> &rsaquo; {$lang->cmd_write}</h2>
 <form action="./" method="POST" onsubmit="return procFilter(this, write_document)">
 <input type="hidden" name="mid" value="{$mid}" />
 <input type="hidden" name="document_srl" value="{$document_srl}" />

@@ -109,14 +109,14 @@ select{width:90%}
 .gn li li li a{padding:0 10px 0 30px}
 .gn li li li li a{padding:0 10px 0 50px}
 /* LNB */
-.ln{position:relative;margin:0;padding:5px 20px 0 5px;overflow:hidden;background:#666;border-top:1px solid #444;white-space:nowrap}
-.ln ul{margin:0;padding:0;position:relative;left:0;list-style:none;display:inline-block}
+.ln{position:relative;margin:0;padding:5px 0 0 0px;overflow:hidden;background:#666;border-top:1px solid #444;white-space:nowrap}
+.ln:before{content:"";display:block;width:30px;height:100%;position:absolute;top:0;left:0;z-index:1;background-image:linear-gradient(left , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-o-linear-gradient(left , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-moz-linear-gradient(left , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-webkit-linear-gradient(left , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-ms-linear-gradient(left , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);}
+.ln:after{content:"";display:block;width:30px;height:100%;position:absolute;top:0;right:0;z-index:1;background-image:linear-gradient(right , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-o-linear-gradient(right , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-moz-linear-gradient(right , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-webkit-linear-gradient(right , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);background-image:-ms-linear-gradient(right , rgb(0,0,0) 0%, rgba(102,102,102,0) 100%);}
+.ln ul{margin:0;padding:0 30px;position:relative;left:0;list-style:none;display:block;overflow:scroll;}
 .ln li{display:inline-block;_display:inline;vertical-align:top}
 .ln a{display:inline-block;padding:5px;text-decoration:none;color:#fff;text-shadow:0 0 2px #000;white-space:nowrap;font-size:14px;letter-spacing:-1px}
 .ln .active a{background:#fff;padding:8px 8px 5px 8px;color:#000;text-shadow:none;border-radius:3px 3px 0 0;-moz-border-radius:3px 3px 0 0;-webkit-border-radius:3px 3px 0 0;box-shadow:0 0 3px #000;-moz-box-shadow:0 0 3px #000;-webkit-box-shadow:0 0 3px #000}
 .ln button{position:absolute;width:0;height:0;overflow:hidden;font-size:0;padding:0;top:50%;margin:-10px 0 0 0;width:10px;border:0;background:transparent;box-shadow:none;-moz-box-shadow:none;-webkit-box-shadow:none;border-radius:0;-moz-border-radius:0;-webkit-border-radius:0;opacity:.6}
-.ln .next{right:-5px;border:10px solid transparent;border-left-color:#fff}
-.ln .prev{right:5px;border:10px solid transparent;border-right-color:#fff}
 
 .button{display:inline-block;padding:5px 10px;font-weight:normal;font-size:14px;border:1px solid #333;background:#eee;color:#000;text-shadow:1px 1px 0 #fff;box-shadow:0 0 3px #333;-moz-box-shadow:0 0 3px #333;-webkit-box-shadow:0 0 3px #333;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;text-decoration:none}
 span.pointGift { float:left; padding:3px; margin:10px 10px 0 10px; background-color:#5589AE; color:#fff; font-family:tahoma; font-size:12px;  }

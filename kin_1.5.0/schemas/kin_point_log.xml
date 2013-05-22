@@ -1,7 +1,0 @@
-<table name="kin_point_log">
-    <column name="document_srl" type="number" size="11" notnull="notnull" default="0" primary_key="primary_key" />
-    <column name="comment_srl" type="number" size="11" notnull="notnull" default="0" index="idx_kin_point_log" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" default="0" index="idx_kin_point_log" />
-    <column name="point" type="number" size="11" notnull="notnull" />
-    <column name="in_time" var="in_time" type="number" size="11" default="0" notnull="notnull"/>
-</table>

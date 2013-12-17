@@ -102,6 +102,7 @@ class kinView extends kin
 
 		// re-initialize category children
 		$category_childs = $categories[$category_srl]->childs;
+		$obj = new stdClass();
 		switch($type)
 		{
 			case 'questions' :
@@ -171,10 +172,11 @@ class kinView extends kin
 			$document_srls = array();
 			foreach($output->data as $key => $val)
 			{
-				if($val->document_srl) $document_srls[] = $val->document_srl;
+				if($val && $val->document_srl) $document_srls[] = $val->document_srl;
 			}
 			if(count($document_srls))
 			{
+				$point_args = new stdClass();
 				$point_args->document_srls = implode(',',$document_srls);
 				$output = executeQueryArray('kin.getKinPoints', $point_args);
 				if($output->data)

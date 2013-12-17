@@ -20,6 +20,7 @@ class kinController  extends kin {
 
 		if(!$this->grant->write_document) return new Object(-1, 'msg_not_permitted');
 
+		$obj = new stdClass();
 		$obj->module_srl = $this->module_srl;
 		$obj->category_srl = Context::get('category_srl');
 		$obj->document_srl = Context::get('document_srl');
@@ -55,6 +56,7 @@ class kinController  extends kin {
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
 
+			$give_args = new stdClass();
 			$give_args->document_srl = $obj->document_srl;
 			$give_args->point = $give_point;
 			$output = executeQuery('kin.insertKinPoint', $give_args);
@@ -97,6 +99,7 @@ class kinController  extends kin {
 		$output = $oDocumentController->deleteDocument($document_srl);
 		if(!$output->toBool()) return $output;
 
+		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('kin.deleteKinPoint', $args);
 		if(!$output->toBool()) return $output;
@@ -105,7 +108,6 @@ class kinController  extends kin {
 	}
 
 
-	//��������
 	function procKinSelectReply() {
 		$oDocumentModel = &getModel('document');
 		$oCommentModel = &getModel('comment');
@@ -124,7 +126,7 @@ class kinController  extends kin {
 		$logged_info = Context::get('logged_info');
 		if($oSourceDocument->get('member_srl')!=$logged_info->member_srl && !$logged_info->is_admin)  return new ObjecT(-1,'msg_invalid_request');
 
-
+		$args = new stdClass();
 		$args->document_srl = $oSourceDocument->document_srl;
 		$args->selected = $comment_srl;
 		//$args->in_time = time();
@@ -156,7 +158,6 @@ class kinController  extends kin {
 	}
 
 
-	//�
 	function procKinInsertReply() {
 		$oKinModel = &getModel('kin');
 		$oDocumentModel = &getModel('document');
@@ -168,9 +169,9 @@ class kinController  extends kin {
 		$oSourceDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oSourceDocument->isExists()) return new Object(-1,'msg_invalid_request');
 
-
 		//if($oKinModel->getSelectedReply($document_srl)) return new Object(-1,'msg_invalid_request');
 
+		$obj = new stdClass();
 		$obj->document_srl = $document_srl;
 		$obj->comment_srl = Context::get('comment_srl');
 		if(!$obj->comment_srl) $obj->comment_srl = getNextSequence();
@@ -186,8 +187,8 @@ class kinController  extends kin {
 		$this->setMessage('success_registed');
 
 
-		unset($args);
 		$logged_info = Context::get('logged_info');
+		$args = new stdClass();
 		$args->document_srl = $obj->document_srl;
 		$args->comment_srl = $obj->comment_srl;
 		$args->member_srl = $logged_info->member_srl;
@@ -208,7 +209,6 @@ class kinController  extends kin {
 		}
 	}
 
-	//�޸Ļش�
 	function procKinUpdateReply() {
 		$oKinModel = &getModel('kin');
 		$oDocumentModel = &getModel('document');
@@ -223,6 +223,7 @@ class kinController  extends kin {
 
 		if($oKinModel->getSelectedReply($oReply->get('document_srl'))) return new Object(-1,'msg_invalid_request');
 
+		$obj = new stdClass();
 		$obj->module_srl = $this->module_srl;
 		$obj->comment_srl = $comment_srl;
 		$obj->content = Context::get('content');
@@ -242,7 +243,6 @@ class kinController  extends kin {
 	}
 
 
-	//ɾ
 	function procKinDeleteReply() {
 		$oKinModel = &getModel('kin');
 		$oDocumentModel = &getModel('document');
@@ -327,6 +327,7 @@ class kinController  extends kin {
 
 		if(!$vars->document_srl || $vars->module != $this->module) return null;
 
+		$args = new stdClass();
 		$args->document_srl = $vars->document_srl;
 		$documentInfo = $documentModel->getDocument($args->document_srl);
 		$voted_count = $documentInfo->get('voted_count');
@@ -360,6 +361,7 @@ class kinController  extends kin {
 
 		if(!$vars->comment_srl || $vars->module != $this->module) return null;
 
+		$args = new stdClass();
 		$args->comment_srl = $vars->comment_srl;
 		$commentInfo = $commentModel->getComment($args->comment_srl);
 		$voted_count = $commentInfo->get('voted_count');

@@ -84,6 +84,7 @@ class kinMobile extends kinView {
 		Context::set('oDocument', $oDocument);
 
 		$replies = $oDocument->getComments();
+		$parent_srls = array();
 		if(count($replies))
 		{
 			foreach($replies as $key => $val) $parent_srls[] = $val->comment_srl;

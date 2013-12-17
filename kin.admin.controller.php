@@ -63,6 +63,7 @@ class kinAdminController extends kin
 		$output = $oModuleController->deleteModule($module_srl);
 		if(!$output->toBool()) return $output;
 
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		executeQuery('kin.deleteReplies', $args);
 

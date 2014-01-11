@@ -13,7 +13,7 @@ class kinModel extends kin {
 
 	function getNotRepliedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -32,7 +32,7 @@ class kinModel extends kin {
 
 	function getMyReplies($module_srl, $member_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -60,7 +60,7 @@ class kinModel extends kin {
 
 	function getNotSelectedReplies($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -95,7 +95,7 @@ class kinModel extends kin {
 
 	function getSelectedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -113,7 +113,7 @@ class kinModel extends kin {
 
 	function getMyQuestions($module_srl, $category_srl = null, $member_srl, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$q_target = Context::get('q_target');
 		$args = new stdClass;
@@ -142,7 +142,7 @@ class kinModel extends kin {
 	// get high score questions
 	function getScoreNotSelectedQuestions($module_srl, $category_srl = null, $list_count = 20, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -161,7 +161,7 @@ class kinModel extends kin {
 
 	function getPopularQuestions($module_srl, $category_srl = null, $list_count = 10, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -191,7 +191,7 @@ class kinModel extends kin {
 
 	function getPopularReplies($module_srl, $category_srl = null, $list_count = 10, $page = 1, $search_keyword = null, $category_childs = null)
 	{
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
@@ -220,7 +220,7 @@ class kinModel extends kin {
 
 	function _arrangeDocument($output)
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		if($output->data)
 		{
@@ -428,7 +428,7 @@ class kinModel extends kin {
 
 	function getDocumentRepliesBySort($module_srl, $document_srl, $sort_index = 'list_order')
 	{
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		$args = new stdClass;
 		$args->module_srl = $module_srl;

@@ -12,11 +12,11 @@ class kinController  extends kin {
 
 	//insert question
 	function procKinInsert() {
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
-		$oPointModel = &getModel('point');
-		$oPointController = &getController('point');
-		$oModuleModel = &getModel('module');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$oPointModel = getModel('point');
+		$oPointController = getController('point');
+		$oModuleModel = getModel('module');
 
 		if(!$this->grant->write_document) return new Object(-1, 'msg_not_permitted');
 
@@ -81,11 +81,11 @@ class kinController  extends kin {
 	}
 
 	function procKinDeleteDocument() {
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
-		$oKinModel = &getModel('kin');
-		$oPointController = &getController('point');
-		$oPointModel = &getModel('point');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$oKinModel = getModel('kin');
+		$oPointController = getController('point');
+		$oPointModel = getModel('point');
 
 		$document_srl = Context::get('document_srl');
 		if(!$document_srl) return new Object(-1,'msg_invalid_request');
@@ -109,12 +109,12 @@ class kinController  extends kin {
 
 
 	function procKinSelectReply() {
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
-		$oKinModel = &getModel('kin');
-		$oPointController = &getController('point');
-		$oPointModel = &getModel('point');
-		$oModuleModel = &getModel('module');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
+		$oKinModel = getModel('kin');
+		$oPointController = getController('point');
+		$oPointModel = getModel('point');
+		$oModuleModel = getModel('module');
 
 		$comment_srl = Context::get('comment_srl');
 		$oComment = $oCommentModel->getComment($comment_srl);
@@ -159,10 +159,10 @@ class kinController  extends kin {
 
 
 	function procKinInsertReply() {
-		$oKinModel = &getModel('kin');
-		$oDocumentModel = &getModel('document');
-		$oDocumentController = &getController('document');
-		$oCommentController = &getController('comment');
+		$oKinModel = getModel('kin');
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$oCommentController = getController('comment');
 		if(!$this->grant->write_reply) return new Object(-1, 'msg_not_permitted');
 
 		$document_srl = Context::get('document_srl');
@@ -192,7 +192,7 @@ class kinController  extends kin {
 		$args->document_srl = $obj->document_srl;
 		$args->comment_srl = $obj->comment_srl;
 		$args->member_srl = $logged_info->member_srl;
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$pointConfigs = $oModuleModel->getModulePartConfigs('point');
 		$answer_point = $pointConfigs[$this->module_srl]['insert_comment'];
 		$args->point = $answer_point;
@@ -210,10 +210,10 @@ class kinController  extends kin {
 	}
 
 	function procKinUpdateReply() {
-		$oKinModel = &getModel('kin');
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
-		$oCommentController = &getController('comment');
+		$oKinModel = getModel('kin');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
+		$oCommentController = getController('comment');
 		if(!$this->grant->write_reply) return new Object(-1, 'msg_not_permitted');
 
 		$document_srl = Context::get('document_srl');
@@ -244,10 +244,10 @@ class kinController  extends kin {
 
 
 	function procKinDeleteReply() {
-		$oKinModel = &getModel('kin');
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
-		$oCommentController = &getController('comment');
+		$oKinModel = getModel('kin');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
+		$oCommentController = getController('comment');
 
 		$comment_srl = Context::get('comment_srl');
 		$oReply = $oCommentModel->getComment($comment_srl);
@@ -264,7 +264,7 @@ class kinController  extends kin {
 	}
 
 	function procKinInsertComment() {
-		$oKinModel = &getModel('kin');
+		$oKinModel = getModel('kin');
 
 		if(!$this->module_srl || !$this->grant->write_reply) return new Object(-1,'msg_invalid_request');
 		$logged_info = Context::get('logged_info');
@@ -299,7 +299,7 @@ class kinController  extends kin {
 	}
 
 	function procKinDeleteComment() {
-		$oKinModel = &getModel('kin');
+		$oKinModel = getModel('kin');
 
 		if(!$this->module_srl || !$this->grant->write_reply) return new Object(-1,'msg_invalid_request');
 		$logged_info = Context::get('logged_info');
@@ -322,7 +322,7 @@ class kinController  extends kin {
 	}
 
 	function procKinQuestionVote(){
-		$documentModel = &getModel('document');
+		$documentModel = getModel('document');
 		$vars = Context::getRequestVars();
 
 		if(!$vars->document_srl || $vars->module != $this->module) return null;
@@ -356,7 +356,7 @@ class kinController  extends kin {
 	}
 
 	function procKinAnswerVote(){
-		$commentModel = &getModel('comment');
+		$commentModel = getModel('comment');
 		$vars = Context::getRequestVars();
 
 		if(!$vars->comment_srl || $vars->module != $this->module) return null;
@@ -366,7 +366,7 @@ class kinController  extends kin {
 		$commentInfo = $commentModel->getComment($args->comment_srl);
 		$voted_count = $commentInfo->get('voted_count');
 
-		$oKinModel = &getModel('kin');
+		$oKinModel = getModel('kin');
 		$vote_ip = $oKinModel->getAnswerVoteIPs($commentInfo->comment_srl);
 
 		$voteExist = 1;

@@ -1,11 +1,11 @@
 <?php
-$oKinView = &getView('kin');
+$oKinView = getView('kin');
 
 class kinMobile extends kinView {
 
 	function init()
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 		if(!is_dir($template_path)||!$this->module_info->mskin)
@@ -56,9 +56,9 @@ class kinMobile extends kinView {
 
 	function dispKinView()
 	{
-		$oModuleModel = &getModel('module');
-		$oDocumentModel = &getModel('document');
-		$oKinModel = &getModel('kin');
+		$oModuleModel = getModel('module');
+		$oDocumentModel = getModel('document');
+		$oKinModel = getModel('kin');
 
 		$oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
 		if(!$oDocument->isExists()) return new Object(-1, 'msg_document_is_null');
@@ -80,7 +80,7 @@ class kinMobile extends kinView {
 		$replies_count = $oKinModel->getKinCommentCount(array($oDocument->get('document_srl')));
 		Context::set('replies_count', $replies_count);
 
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment(0);
 		$oComment->add('module_srl', $this->module_srl);
 		$oComment->add('document_srl', $document_srl);
@@ -93,7 +93,7 @@ class kinMobile extends kinView {
 	function getKinCommentPage()
 	{
 		$oDocumentModel =& getModel('document');
-		$oKinModel = &getModel('kin');
+		$oKinModel = getModel('kin');
 
 		$document_srl = Context::get('document_srl');
 		if(!$document_srl) return new Object(-1, "msg_invalid_request");
@@ -120,7 +120,7 @@ class kinMobile extends kinView {
 
 	function dispKinCategory()
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
 		$this->setTemplateFile('category.html');
 	}

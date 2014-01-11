@@ -11,7 +11,7 @@ class kinView extends kin
 
 	function init()
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
 
 		$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
@@ -41,8 +41,8 @@ class kinView extends kin
 
 	function dispKinIndex()
 	{
-		$oKinModel = &getModel('kin');
-		$oDocumentModel = &getModel('document');
+		$oKinModel = getModel('kin');
+		$oDocumentModel = getModel('document');
 
 		if(Context::get('document_srl'))
 		{
@@ -240,10 +240,10 @@ class kinView extends kin
 	//view the question and replies list
 	function dispKinView()
 	{
-		$oModuleModel = &getModel('module');
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
-		$oKinModel = &getModel('kin');
+		$oModuleModel = getModel('module');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
+		$oKinModel = getModel('kin');
 
 		$oDocument = $oDocumentModel->getDocument(Context::get('document_srl'));
 		if(!$oDocument->isExists()) return new Object(-1, 'msg_document_is_null');
@@ -306,10 +306,10 @@ class kinView extends kin
 	//to ask question
 	function dispKinWrite()
 	{
-		$oDocumentModel = &getModel('document');
-		$oKinModel = &getModel('kin');
-		$oPointModel = &getModel('point');
-		$oModuleModel = &getModel('module');
+		$oDocumentModel = getModel('document');
+		$oKinModel = getModel('kin');
+		$oPointModel = getModel('point');
+		$oModuleModel = getModel('module');
 
 		if(!$this->grant->write_document) return new Object(-1,'msg_not_permitted');
 
@@ -366,8 +366,8 @@ class kinView extends kin
 
 	function dispKinReply()
 	{
-		$oDocumentModel = &getModel('document');
-		$oCommentModel = &getModel('comment');
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
 
 		if(!$this->grant->write_reply) return new Object(-1,'msg_not_permitted');
 
@@ -385,7 +385,7 @@ class kinView extends kin
 
 	function dispKinModifyReply()
 	{
-		$oCommentModel = &getModel('comment');
+		$oCommentModel = getModel('comment');
 
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl) return new Object(-1,'msg_invalid_request');
@@ -400,7 +400,7 @@ class kinView extends kin
 	function dispKinPointRank()
 	{
 		$logged_info = Context::get('logged_info');
-		$oKinModel = &getModel('kin');
+		$oKinModel = getModel('kin');
 
 		$rank_target = Context::get('rtarget')?Context::get('rtarget'):'total';
 		Context::set('rtarget',$rank_target);

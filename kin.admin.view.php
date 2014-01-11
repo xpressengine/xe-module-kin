@@ -8,7 +8,7 @@ class kinAdminView extends kin {
 
 	function init()
 	{
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_category = $oModuleModel->getModuleCategories();
 		Context::set('module_category', $module_category);
 
@@ -75,8 +75,8 @@ class kinAdminView extends kin {
 
 	function dispKinAdminInsert()
 	{
-		$oModuleModel = &getModel('module');
-		$oLayoutModel = &getModel('layout');
+		$oModuleModel = getModel('module');
+		$oLayoutModel = getModel('layout');
 
 		$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
 		Context::set('mlayout_list', $mobile_layout_list);
@@ -95,7 +95,7 @@ class kinAdminView extends kin {
 
 	function dispKinAdminCategory()
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 		Context::set('category_content', $oDocumentModel->getCategoryHTML($this->module_info->module_srl));
 	}
 
@@ -111,7 +111,7 @@ class kinAdminView extends kin {
 
 	function dispKinAdminDelete()
 	{
-		$oDocumentModel = &getModel('document');
+		$oDocumentModel = getModel('document');
 
 		if(!$this->module_info) return new Object(-1,'msg_invalid_request');
 
@@ -120,7 +120,7 @@ class kinAdminView extends kin {
 
 	function dispKinAdminSkinInfo()
 	{
-		$oModuleAdminModel = &getAdminModel('module');
+		$oModuleAdminModel = getAdminModel('module');
 		$skin_content = $oModuleAdminModel->getModuleSkinHTML($this->module_info->module_srl);
 
 		Context::set('skin_content', $skin_content);

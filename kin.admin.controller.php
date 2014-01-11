@@ -13,8 +13,8 @@ class kinAdminController extends kin
 
 	function procKinAdminInsert()
 	{
-		$oModuleController = &getController('module');
-		$oModuleModel = &getModel('module');
+		$oModuleController = getController('module');
+		$oModuleModel = getModel('module');
 
 		$args = Context::getRequestVars();
 		$args->module = 'kin';
@@ -95,7 +95,7 @@ class kinAdminController extends kin
 	}
 
 	function procKinAdminDelete() {
-		$oModuleController = &getController('module');
+		$oModuleController = getController('module');
 
 		$module_srl = Context::get('module_srl');
 		$output = $oModuleController->deleteModule($module_srl);

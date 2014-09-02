@@ -4,7 +4,7 @@
 		<table name="kin_thread" alias="kin_thread" />
     </tables>
     <columns>
-        <column name="count(com.*)" alias="accepted_count" />
+        <column name="count(*)" alias="accepted_count" />
     </columns>
     <conditions>
 		<condition operation="equal" column="com.module_srl" var="module_srl"/>
